@@ -1,18 +1,19 @@
+from sqlalchemy.orm import validates
 from datetime import datetime
-from . import validates
 from config import db
 
 class Pet(db.Model):
     __tablename__ = "pets"
 
     id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     species = db.Column(db.String, nullable=False)
     breed = db.Column(db.String, nullable=False)
     est_birthday = db.Column(db.Date, nullable=False)
     description = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.Datetime, server_default=db.func.now())
-    updated_at = db.Column(db.Datetime, onupdate=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # relationships
 
