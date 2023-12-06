@@ -1,6 +1,5 @@
-from marshmallow import fields, validates, validate, ValidationError
+from marshmallow import fields, validates, validate
 from models.user import User
-from schemas.user_events_schema import UserEventSchema
 from config import ma
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -20,8 +19,8 @@ class UserSchema(ma.SQLAlchemySchema):
         validate=validate.Length(min=5, max=50, error="Username must be between 5-50 characters")
     )
 
-    # events = fields.Nested("EventSchema", exclude=("users",), many=True, dump_only=True)
-    user_events = fields.List(fields.Nested(UserEventSchema))
+    events = fields.List(fields.Nested("EventSchema", only=("id", "title")))
+    pets = fields.Nested("PetSchema", exclude=("user",))
 
     url = ma.Hyperlinks(
         {
@@ -32,5 +31,3 @@ class UserSchema(ma.SQLAlchemySchema):
         }
     )
 
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)

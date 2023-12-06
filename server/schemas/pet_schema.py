@@ -1,4 +1,4 @@
-from marshmallow import fields, validates, validate, ValidationError
+from marshmallow import fields, validates, validate
 from models.pet import Pet
 from config import ma
 
@@ -33,5 +33,5 @@ class PetSchema(ma.SQLAlchemySchema):
         }
     )
 
-pet_schema = PetSchema()
-pets_schema = PetSchema(many=True)
+# pet_schema = PetSchema()
+# pets_schema = PetSchema(many=True)

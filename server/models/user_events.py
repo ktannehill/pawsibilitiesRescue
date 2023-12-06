@@ -6,14 +6,14 @@ from .event import Event
 class UserEvent(db.Model):
     __tablename__ = "user_events"
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey("events.id"), primary_key=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # relationships
-    user = db.relationship('User', back_populates='user_events')
-    event = db.relationship('Event', back_populates='user_events')
+    user = db.relationship("User", back_populates="user_events")
+    event = db.relationship("Event", back_populates="user_events")
 
     def __repr__(self):
         return f"<UserEvent #{self.user_id}-{self.event_id}>"

@@ -17,6 +17,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # relationships
+    pets = db.relationship("Pet", back_populates="user")
     user_events = db.relationship('UserEvent', back_populates='user', cascade="all, delete-orphan")
     events = association_proxy("user_events", "event")
 

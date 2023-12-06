@@ -12,10 +12,12 @@ class Pet(db.Model):
     breed = db.Column(db.String, nullable=False)
     est_birthday = db.Column(db.Date, nullable=False)
     description = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # relationships
+    user = db.relationship("User", back_populates="pets")
 
     def __repr__(self):
         return f"<Pet #{self.id}: {self.name}>"

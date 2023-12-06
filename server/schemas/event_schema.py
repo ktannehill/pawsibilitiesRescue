@@ -1,6 +1,5 @@
 from marshmallow import fields, validates, validate, ValidationError
 from models.event import Event
-from schemas.user_events_schema import UserEventSchema
 from config import ma
 
 class EventSchema(ma.SQLAlchemySchema):
@@ -20,8 +19,7 @@ class EventSchema(ma.SQLAlchemySchema):
         validate=validate.Length(min=5, max=50, error="Location must be between 5-50 characters")
     )
 
-    # users = fields.Nested("UserSchema", only=("username",), many=True, dump_only=True)
-    user_events = fields.List(fields.Nested(UserEventSchema))
+    users = fields.List(fields.Nested("UserSchema", only=("id", "username")))
 
     url = ma.Hyperlinks(
         {
@@ -32,5 +30,5 @@ class EventSchema(ma.SQLAlchemySchema):
         }
     )
 
-event_schema = EventSchema()
-events_schema = EventSchema(many=True)
+# event_schema = EventSchema()
+# events_schema = EventSchema(many=True)
