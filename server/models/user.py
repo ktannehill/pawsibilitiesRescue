@@ -1,7 +1,8 @@
-from . import validates
+from sqlalchemy.orm import validates
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.associationproxy import association_proxy
 import re
 from config import db, bcrypt
-from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(db.Model):
     __tablename__ = "users"
@@ -12,11 +13,12 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.Datetime, server_default=db.func.now())
-    updated_at = db.Column(db.Datetime, onupdate=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # relationships
     user_events = db.relationship('UserEvent', back_populates='user', cascade="all, delete-orphan")
+    events = association_proxy("user_events", "event")
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}>"
