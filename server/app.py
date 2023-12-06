@@ -3,8 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request
-from flask_restful import Resource
+from werkzeug.exceptions import NotFound
 
 # Local imports
 from config import app, db, api
@@ -41,6 +40,11 @@ api.add_resource(Signup, "/signup")
 api.add_resource(Login, "/login")
 api.add_resource(Logout, "/logout")
 api.add_resource(CheckUser, "/check_user")
+
+@app.errorhandler(NotFound)
+def handle_404(error):
+    response = {"message": error.description}
+    return response, error.code
 
 
 if __name__ == '__main__':

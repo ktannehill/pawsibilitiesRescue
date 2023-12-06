@@ -18,6 +18,7 @@ class UserSchema(ma.SQLAlchemySchema):
     username = fields.String(required=True, 
         validate=validate.Length(min=5, max=50, error="Username must be between 5-50 characters")
     )
+    email = fields.String(required=True)
 
     events = fields.List(fields.Nested("EventSchema", only=("id", "title")))
     pets = fields.Nested("PetSchema", exclude=("user",))
