@@ -2,6 +2,7 @@ from flask import request, abort
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from marshmallow import ValidationError
+from datetime import datetime
 from config import db
 from models.event import Event
 from schemas.event_schema import EventSchema

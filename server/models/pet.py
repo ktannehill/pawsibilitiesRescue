@@ -35,7 +35,7 @@ class Pet(db.Model):
         if not isinstance(species, str):
             raise TypeError("Species must be a string")
         elif species.lower() not in ["cat", "dog"]:
-            raise ValueError("Species must be 'cat' or 'dog'")
+            raise ValueError("Species must be 'cat' or 'dog' -model")
         return species
     
     @validates("breed")
@@ -48,18 +48,21 @@ class Pet(db.Model):
     
     @validates("est_birthday")
     def validate_birthday(self, _, birthday):
-        if not isinstance(birthday, datetime):
-            raise TypeError("Birthday must be in datetime")
-        elif birthday.date() > datetime.now().date():
+        try:
+            birthday_dt = datetime.strptime(str(birthday), '%Y-%m-%d')
+        except ValueError:
+            raise ValueError("Date must be in YYYY-MM-DD format -model")
+        if birthday_dt.date() > datetime.now().date():
             raise ValueError("Birthday cannot be in the future")
-        return birthday
+        return birthday_dt
     
     @validates("description")
     def validate_desc(self, _, desc):
+        print(f"Desc: {desc}")
         if not isinstance(desc, str):
             raise TypeError("Description must be a string")
-        elif len(desc) < 160 or len(desc) > 480:
-            raise ValueError("Description must be between 160-480 characters")
+        elif len(desc) < 100 or len(desc) > 500:
+            raise ValueError("Description must be between 100-500 characters")
         return desc
 
     def calculate_age(self):

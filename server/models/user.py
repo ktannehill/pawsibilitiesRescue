@@ -46,7 +46,7 @@ class User(db.Model):
             raise TypeError("Username must be a string")
         elif len(username) < 5 or len(username) > 50:
             raise ValueError("Username must be between 5-50 characters")
-        elif not re.match(r"^[a-zA-Z0-9_-]+$"):
+        elif not re.match(r"^[a-zA-Z0-9_-]+$", username):
             raise ValueError("Usernames may only contain alphanumeric characters, dashes(-), or underscores(_)")
         return username
 

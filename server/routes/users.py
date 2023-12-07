@@ -5,7 +5,7 @@ from models.user import User
 from schemas.user_schema import UserSchema
 
 user_schema = UserSchema(session=db.session)
-users_schema = UserSchema(many=True, exclude=("events", "pets"), session=db.session)
+users_schema = UserSchema(many=True, exclude=("events",), session=db.session)
 
 class Users(Resource):
     def get(self):

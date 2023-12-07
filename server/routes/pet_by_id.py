@@ -2,6 +2,7 @@ from flask import request, abort
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from marshmallow import ValidationError
+from datetime import datetime
 from config import db
 from models.pet import Pet
 from schemas.pet_schema import PetSchema
@@ -26,6 +27,10 @@ class PetById(Resource):
         try:
             data = request.get_json()
             pet_schema.validate(data)
+
+            # if est_birthday_str := data.get("est_birthday"):
+            #     data["est_birthday"] = datetime.strptime(est_birthday_str, '%Y-%m-%d').date()
+
             updated_pet = pet_schema.load(
                 data, instance=pet, partial=True, session=db.session
             )

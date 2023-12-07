@@ -34,8 +34,8 @@ class Event(db.Model):
     def validate_desc(self, _, desc):
         if not isinstance(desc, str):
             raise TypeError("Description must be a string")
-        elif len(desc) < 80 or len(desc) > 240:
-            raise ValueError("Description must be between 80-240 characters")
+        elif len(desc) < 100 or len(desc) > 500:
+            raise ValueError("Description must be between 100-500 characters")
         return desc
     
     @validates("location")
@@ -48,11 +48,18 @@ class Event(db.Model):
     
     @validates("event_date")
     def validate_date(self, _, event_date):
+        if len(event_date.split(':')) == 3:
+            format_str = '%Y-%m-%d %H:%M:%S'
+        else:
+            format_str = '%Y-%m-%d %H:%M'
         try:
-            datetime.strptime(str(event_date), '%Y-%m-%d %H:%M')
+            parsed_date = datetime.strptime(str(event_date), format_str)
+            if not isinstance(parsed_date, datetime):
+                raise ValueError("Invalid date format")
+
         except ValueError:
-            raise ValueError("Date must be in YYYY-MM-DD HH:MM format")
-        if event_date.date() < datetime.now().date():
+            raise ValueError("Date must be in YYYY-MM-DD HH:MM format -model")
+        if parsed_date.date() < datetime.now().date():
             raise ValueError("Event cannot be in the past")
-        return event_date
+        return parsed_date
 
