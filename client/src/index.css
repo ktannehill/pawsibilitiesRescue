@@ -1,7 +1,114 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
+body element.style {
+  padding: 0;
+}
+
+:root {
+  --dark-blue: #2b4263;
+  --light-blue: #86c0cc;
+  --peach: #e1866f;
+  --gold: #f5c976; 
+  --dark-grey: #26282b;
+  --med-grey: #7e8791;
+  --light-grey: #a5abb2;
+
+  --bg-color: #eaecef;
+  --main-txt-color: #04070a;
+
+  background: var(--bg-color);
+  color: var(--main-txt-color);
+}
+
+/* MUI header style */
+div#box main.css-19kzrtu {
+  padding: 0;
+}
+
+#header {
+  background-color: var(--light-blue);
+}
+
+#drawer {
+  height: 100%;
+  background-color: var(--light-blue);
+}
+
+#header h1,
+#header h1 a {
+  flex-grow: 1;
+  color: var(--bg-color);
+}
+/* end MUI header style */
+
+#outlet {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  object-fit: cover;
+}
+
+#banner {
+  width: 100%; 
+  height: 300px;
+  position: relative;
+  background-image: linear-gradient(to top right, 
+    var(--gold), var(--peach));;
+}
+
+#banner img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+#banner h2 {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  z-index: 1000;
+}
+
+aside img {
+  width: 300px;
+  height: 350px;
+}
+
+.layout-grid {
+  padding-block: 2rem;
+  width: min(80%, 70rem);
+  margin-inline: auto;
+  display: grid;
+  gap: 2rem;
+  grid-auto-columns: 1fr;
+}
+
+@media (min-width: 50rem) {
+  .layout-grid {
+      grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-col-span-2 {
+      grid-column: span 2;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: var(--main-txt-color);
+}
+
+a:hover {
+  text-decoration: none;
+}
