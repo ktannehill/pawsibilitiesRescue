@@ -34,11 +34,15 @@ div#box main.css-19kzrtu {
 }
 
 #header {
+  background-image: linear-gradient(to top right, 
+    var(--light-blue), var(--dark-blue));
   background-color: var(--light-blue);
 }
 
 #drawer {
   height: 100%;
+  background-image: linear-gradient(to top right, 
+    var(--light-blue), var(--dark-blue));
   background-color: var(--light-blue);
 }
 
@@ -64,13 +68,14 @@ img {
   height: 300px;
   position: relative;
   background-image: linear-gradient(to top right, 
-    var(--gold), var(--peach));;
+    var(--peach), var(--light-blue));
+  background-color: var(--peach);
 }
 
 #banner img {
   width: 100%;
   height: 100%;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 #banner h2 {
@@ -83,6 +88,8 @@ img {
 aside img {
   width: 300px;
   height: 350px;
+  justify-self: center;
+  align-self: center;
 }
 
 .layout-grid {
@@ -92,6 +99,7 @@ aside img {
   display: grid;
   gap: 2rem;
   grid-auto-columns: 1fr;
+  align-items: center;
 }
 
 @media (min-width: 50rem) {
@@ -111,4 +119,43 @@ a {
 
 a:hover {
   text-decoration: none;
+}
+
+#container {
+  width: 80%;
+  padding: 2rem;
+}
+
+::selection {
+  background: var(--peach);
+}
+
+#footer {
+  width: 100%;
+  background-image: linear-gradient(to top right, 
+    var(--gold), var(--peach));
+  background-color: var(--peach);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+#footer a {
+  padding: 0 0 0 2rem;
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  margin: 1rem 0;
+  background-color: var(--dark-blue);
+  border: none;
+}
+
+button a {
+  color: var(--bg-color);
+}
+
+button:hover {
+  background-color: var(--light-blue);
 }

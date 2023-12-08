@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import AlertBar from "./components/AlertBar";
+import Footer from "./components/Footer";
 
 const App = () => {
     const [message, setMessage] = useState(null);
@@ -46,6 +47,7 @@ const App = () => {
             <div id="outlet">
                 <Outlet />
             </div>
+            <Footer />
         </div>
     )
 }

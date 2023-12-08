@@ -1,4 +1,4 @@
-import React from 'react'
+import { IoPaw } from "react-icons/io5";
 
 const Home = () => {
   return (
@@ -13,7 +13,7 @@ const Home = () => {
                     Paw-sibilities Rescue is more than just a shelter; we are a community dedicated to creating a world where every animal has the opportunity for a loving home. Our mission is to ease the burden on local shelters by providing a caring and nurturing space for animals in need. With a commitment to compassion and hope, we strive to eliminate the need for euthanasia in shelters, working tirelessly to place each precious life in a forever home.
                 </p>
                 <p>
-                    At Paw-sibilities Rescue, we believe in the power of love to transform lives. Through our dedicated team and community of volunteers, we inspire paws-itivity and invite everyone to join us on this journey. Together, we can make a difference in the lives of animals, one paw at a time.
+                    At Paw-sibilities Rescue, we believe in the power of love to transform lives. Through our dedicated team and community of volunteers, we inspire paw-sitivity and invite everyone to join us on this journey. Together, we can make a difference in the lives of animals, one paw at a time. <IoPaw />
                 </p>
             </article>
             <aside>
