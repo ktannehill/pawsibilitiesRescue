@@ -1,6 +1,14 @@
-import React from 'react'
+import { useSelector } from 'react-redux'
+import Card from '../components/Card'
 
 const ViewAll = () => {
+    const events = useSelector(state => state.events)
+    // const pets = useSelector(state => state.pets)
+
+    const mappedEvents = events.map(item => (
+        <Card key={item.id} {...item} />
+    ))
+
     return (
         <div>
             <div id="banner">
@@ -8,7 +16,7 @@ const ViewAll = () => {
                 <h2>Sign up for one of our events today!</h2>
             </div>
             <div id="container">
-                
+                {mappedEvents}
             </div>
         </div>
   )
