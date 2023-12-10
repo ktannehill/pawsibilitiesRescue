@@ -89,6 +89,8 @@ const userSlice = createSlice({
     initialState,
     reducers: (create) => ({
         setUser: create.reducer((state, action) => {
+            console.log(action)
+            console.log(action.payload)
             state.data = action.payload
             state.loading = false
             state.errors = []

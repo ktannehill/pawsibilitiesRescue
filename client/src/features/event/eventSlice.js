@@ -27,7 +27,7 @@ const fetchAll = async () => {
 
 const fetchOne = async (id, asyncThunk) => {
     try {
-        const resp = await fetch(`/productions/${id}`)
+        const resp = await fetch(`/events/${id}`)
         const data = await resp.json()
         if (resp.ok) {
             return data
