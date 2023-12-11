@@ -39,61 +39,61 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-const postPet = async (vals, asyncThunk) => {
-    try {
-        const resp = await fetch("/pets", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vals)
-        })
-        const data = await resp.json()
-        if (resp.ok) {
-            return data
-        } else {
-            throw data.message
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const postPet = async (vals, asyncThunk) => {
+//     try {
+//         const resp = await fetch("/pets", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(vals)
+//         })
+//         const data = await resp.json()
+//         if (resp.ok) {
+//             return data
+//         } else {
+//             throw data.message
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
-const patchPet = async ({ id, vals }, asyncThunk) => {
-    try {
-        const resp = await fetch(`/pets/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vals)
-        })
-        const data = await resp.json()
-        if (resp.ok) {
-            return data
-        } else {
-            throw data.message || data.msg
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const patchPet = async ({ id, vals }, asyncThunk) => {
+//     try {
+//         const resp = await fetch(`/pets/${id}`, {
+//             method: "PATCH",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(vals)
+//         })
+//         const data = await resp.json()
+//         if (resp.ok) {
+//             return data
+//         } else {
+//             throw data.message || data.msg
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
-const deletePet = async (id, asyncThunk) => {
-    try {
-        const resp = await fetch(`/pets/${id}`, {
-            method: "DELETE"
-        })
-        if (resp.ok) {
-            return { id }
-        } else {
-            const data = await resp.json()
-            throw data.message || data.msg
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const deletePet = async (id, asyncThunk) => {
+//     try {
+//         const resp = await fetch(`/pets/${id}`, {
+//             method: "DELETE"
+//         })
+//         if (resp.ok) {
+//             return { id }
+//         } else {
+//             const data = await resp.json()
+//             throw data.message || data.msg
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
 const petSlice = createSlice({
     name: "pet",

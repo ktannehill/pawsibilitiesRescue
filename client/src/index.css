@@ -138,6 +138,11 @@ aside.card img {
   margin: auto;
 }
 
+.flex_container {
+  display: flex;
+  gap: 2rem;
+}
+
 a {
   text-decoration: none;
   color: var(--main-txt-color);

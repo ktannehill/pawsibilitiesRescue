@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 import { IoPaw } from "react-icons/io5";
 import { FaChevronRight } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/user/userSlice'
+import { fetchLogoutUser } from '../features/user/userSlice'
 import toast from 'react-hot-toast'
 
 const drawerWidth = 240;
@@ -29,7 +29,7 @@ const Header = (props) => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        dispatch(logout())
+        dispatch(fetchLogoutUser())
         toast.success("Successfully logged out")
         navigate("/")
     }
@@ -111,7 +111,7 @@ const Header = (props) => {
                 </Link>
                 {user ? (
                     <>
-                        <Link to={`/profile/${user.id}`}>
+                        <Link to={"/profile"}>
                             <Button sx={{ color: '#fff' }}>
                                 Profile
                             </Button>

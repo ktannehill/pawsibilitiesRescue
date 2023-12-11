@@ -12,10 +12,10 @@ const FormComp = () => {
   return (
     <Formik
       initialValues={{ 
-        first_name: user.first_name || '', 
-        last_name: user.last_name || '', 
-        username: user.username || '', 
-        email: user.email || '', 
+        first_name: '', 
+        last_name: '', 
+        username: '', 
+        email: '', 
         password: '' }
       }
       validationSchema={Yup.object({
@@ -42,7 +42,7 @@ const FormComp = () => {
         // }
         if (typeof action.payload !== "string") {
           console.log(action.payload)
-          navigate(`/users/${user.id}`)
+          navigate("/")
         } else {
           console.log(action.payload)
         }

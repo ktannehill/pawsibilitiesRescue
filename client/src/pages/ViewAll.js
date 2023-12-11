@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { fetchAllEvents } from '../features/event/eventSlice'
 import Card from '../components/Card'
+import toast from 'react-hot-toast'
 
 const ViewAll = () => {
     const events = useSelector(state => state.event.data)
@@ -15,9 +16,9 @@ const ViewAll = () => {
             if (!events) {
                 const {payload} = await dispatch(fetchAllEvents())
                 if (typeof payload !== "string") {
-                    console.log("VA18: ", payload)
+                    // console.log("VA18: ", payload)
                 } else {
-                    console.log("VA20: ", payload)
+                    toast.error(payload)
                     navigate("/")
                 }
             }

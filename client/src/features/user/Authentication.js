@@ -14,7 +14,7 @@ const Authentication = () => {
 
   const handleClick = () => setLogin((login) => !login)
 
-  const url = login ? "/login" : "/users"
+  const url = login ? "/user_login" : "/users"
 
   return (
     <div id="container" className="center">
@@ -36,7 +36,7 @@ const Authentication = () => {
             onSubmit={async (values) => {
               const action = await dispatch(fetchRegister({url, values}))
               if (typeof action.payload !== "string") {
-                toast.success(`Welcome ${action.payload.user.username}!`)
+                toast.success(`Welcome ${action.payload.username}!`)
                 navigate("/")
               } else {
                 toast.error(action.payload)

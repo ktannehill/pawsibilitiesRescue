@@ -10,26 +10,6 @@ const initialState = {
     loading: true
 }
 
-const register = async ({ url, vals },) => {
-    try {
-        const resp = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vals)
-        })
-        const data = await resp.json()
-        if (resp.ok) {
-            return data
-        } else {
-            throw data.message
-        }
-    } catch (error) {
-        return error
-    }
-}
-
 const fetchUser = async () => {
     try {
         const resp = await fetch("/check_user", {
@@ -40,6 +20,42 @@ const fetchUser = async () => {
         const data = await resp.json()
         if (resp.ok) {
             return { user: data }
+        } else {
+            throw data.message
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const logoutUser = async () => {
+    try {
+        const resp = await fetch("/logout", {
+            method: "DELETE"
+        })
+        if (resp.ok) {
+            return {}
+        } else {
+            const data = await resp.json()
+            throw data.message || data.msg
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const register = async ({ url, values }, asyncThunk) => {
+    try {
+        const resp = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        })
+        const data = await resp.json()
+        if (resp.ok) {
+            return data
         } else {
             throw data.message
         }
@@ -89,16 +105,14 @@ const userSlice = createSlice({
     initialState,
     reducers: (create) => ({
         setUser: create.reducer((state, action) => {
-            console.log(action)
-            console.log(action.payload)
             state.data = action.payload
             state.loading = false
             state.errors = []
         }),
-        logout: create.reducer((state) => {
-            state.data = null
-            state.errors = []
-        }),
+        // logout: create.reducer((state) => {
+        //     state.data = null
+        //     state.errors = []
+        // }),
         addError: create.reducer((state, action) => {
             state.errors.push(action.payload)
         }),
@@ -118,10 +132,10 @@ const userSlice = createSlice({
                 },
                 fulfilled: (state, action) => {
                     state.loading = false
-                    if (typeof action.pyload === "string") {
+                    if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
-                        state.data = action.payload
+                        state.data = action.payload.user
                     }
                 }
             }
@@ -139,10 +153,10 @@ const userSlice = createSlice({
                 },
                 fulfilled: (state, action) => {
                     state.loading = false
-                    if (typeof action.pyload === "string") {
+                    if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
-                        state.data = action.payload
+                        state.data = action.payload.user
                     }
                 }
             }
@@ -160,10 +174,31 @@ const userSlice = createSlice({
                 },
                 fulfilled: (state, action) => {
                     state.loading = false
-                    if (typeof action.pyload === "string") {
+                    if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
-                        state.data = action.payload
+                        state.data = action.payload.user
+                    }
+                }
+            }
+        ),
+        fetchLogoutUser: create.asyncThunk(
+            logoutUser,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (typeof action.payload === "string") {
+                        state.errors.push(action.payload)
+                    } else {
+                        state.data = null
                     }
                 }
             }
@@ -181,7 +216,7 @@ const userSlice = createSlice({
                 },
                 fulfilled: (state, action) => {
                     state.loading = false
-                    if (typeof action.pyload === "string") {
+                    if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
                         state.data = null
@@ -200,6 +235,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUser, logout, addError, clearErrors, fetchRegister, fetchCurrentUser, fetchPatchUser, fetchDeleteUser } = userSlice.actions
+export const { setUser, fetchLogoutUser, addError, clearErrors, fetchRegister, fetchCurrentUser, fetchPatchUser, fetchDeleteUser } = userSlice.actions
 export const { selectUser, selectErrors } = userSlice.selectors
 export default userSlice.reducer
