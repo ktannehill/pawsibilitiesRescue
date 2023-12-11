@@ -1,8 +1,8 @@
 import App from "./App"
 import ErrorPage from "./pages/ErrorPage"
 import Home from "./pages/Home"
-import Authentication from "./pages/Authentication"
-import Profile from "./pages/Profile"
+import Authentication from "./features/user/Authentication"
+import Profile from "./features/user/Profile"
 import ViewAll from "./pages/ViewAll"
 import ViewOne from "./pages/ViewOne"
 

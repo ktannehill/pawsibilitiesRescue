@@ -37,7 +37,7 @@ api.add_resource(EventById, "/events/<int:id>")
 api.add_resource(Pets, "/pets")
 api.add_resource(PetById, "/pets/<int:id>")
 api.add_resource(Signup, "/signup")
-api.add_resource(Login, "/login")
+api.add_resource(Login, "/user_login")
 api.add_resource(Logout, "/logout")
 api.add_resource(CheckUser, "/check_user")
 

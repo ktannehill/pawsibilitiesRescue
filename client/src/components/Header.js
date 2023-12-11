@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,16 +15,24 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { IoPaw } from "react-icons/io5";
 import { FaChevronRight } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLogoutUser } from '../features/user/userSlice'
+import toast from 'react-hot-toast'
 
 const drawerWidth = 240;
-// const navItems = [
-//     {name: 'Volunteer', to: "/events"},
-//     {name: 'View Pets', to: "/pets"}, 
-//     {name: 'Login', to: "/login"}];
 
 const Header = (props) => {
+    const user = useSelector(state => state.user.data)
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        dispatch(fetchLogoutUser())
+        toast.success("Successfully logged out")
+        navigate("/")
+    }
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -40,6 +48,31 @@ const Header = (props) => {
                     <ListItemText primary="Volunteer" />
                 </ListItemButton>
             </ListItem>
+            <ListItem disablePadding>
+                <ListItemButton sx={{ textAlign: 'left' }}>
+                    <ListItemText primary="View Pets" />
+                </ListItemButton>
+            </ListItem>
+            {user ? (
+                <>
+                    <ListItem disablePadding>
+                        <ListItemButton sx={{ textAlign: 'left' }}>
+                            <ListItemText primary="Profile" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding onClick={handleLogout}>
+                        <ListItemButton sx={{ textAlign: 'left' }}>
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
+                    </ListItem>
+                </>
+            ) : (
+                <ListItem disablePadding>
+                    <ListItemButton sx={{ textAlign: 'left' }}>
+                        <ListItemText primary="Login" />
+                    </ListItemButton>
+                </ListItem>
+            )}
         </List>
         </Box>
     );
@@ -76,11 +109,26 @@ const Header = (props) => {
                         View Pets
                     </Button>
                 </Link>
-                <Link to="/login">
-                    <Button sx={{ color: '#fff' }}>
-                        Login
-                    </Button>
-                </Link>
+                {user ? (
+                    <>
+                        <Link to={"/profile"}>
+                            <Button sx={{ color: '#fff' }}>
+                                Profile
+                            </Button>
+                        </Link>
+                        <Link  onClick={handleLogout}>
+                            <Button sx={{ color: '#fff' }}>
+                                Logout
+                            </Button>
+                        </Link>
+                    </>
+                ) : (
+                    <Link to="/login">
+                        <Button sx={{ color: '#fff' }}>
+                            Login
+                        </Button>
+                    </Link>
+                )}
             </Box>
             </Toolbar>
         </AppBar>

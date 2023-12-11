@@ -1,53 +1,49 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
-import AlertBar from "./components/AlertBar";
+// import AlertBar from "./components/AlertBar";
 import Footer from "./components/Footer";
+import { fetchCurrentUser } from './features/user/userSlice'
+import { clearErrors as clearUserErrors} from './features/user/userSlice'
+import toast, { Toaster } from 'react-hot-toast';
 
 const App = () => {
-    const [message, setMessage] = useState(null);
-    const [snackType, setSnackType] = useState("");
-    const [user, setUser] = useState(null); 
+    const user = useSelector(state => state.user.data)
+    const userErrors = useSelector(state => state.user.errors)
+    // const eventErrors = useSelector(state => state.event.errors)
+    // const petErrors = useSelector(state => state.pet.errors)
+    const errors = [...userErrors]
+    const dispatch = useDispatch()
 
-    useEffect(() => { 
-        fetch("/check_session")
-        .then((resp) => { 
-            if (resp.ok) { 
-                resp.json().then(setUser); 
+    useEffect(() => {
+        (async () => {
+          if (!user) {
+            const {payload} = await dispatch(fetchCurrentUser())
+            if (typeof payload !== "string") {
+                return
+                // toast.success("App19: ", payload)
             } else {
-                resp.json().then(errorObj => {
-                    handleSnackType("error")
-                    setAlertMessage(errorObj.message)
-                })
+                // toast.error("App21: ", payload)
             }
-        })
-        .catch(errorObj => {
-            handleSnackType("error")
-            setAlertMessage(errorObj.message)
-        })
-    }, []);
+          }
+        })()
+      }, [user])
 
-    const updateUser = (user) => {setUser(user)}
-
-    const setAlertMessage = (msg) => setMessage(msg);
-
-    const handleSnackType = (type) => setSnackType(type);
+      useEffect(() => {
+        if (errors.length) {
+            dispatch(clearUserErrors(""))
+        }
+      }, [errors, dispatch])
 
     return (
-        <div>
-            <Header />
-            {message && (
-                <AlertBar
-                    message={message}
-                    snackType={snackType}
-                    setAlertMessage={setAlertMessage}
-                    handleSnackType={handleSnackType}
-                />
-            )}
+        <div id="flex">
+            <Header className="row" />
+            <Toaster/>
             <div id="outlet">
                 <Outlet />
             </div>
-            <Footer />
+            <Footer className="row" />
         </div>
     )
 }

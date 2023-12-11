@@ -9,7 +9,7 @@ user_schema = UserSchema(session=db.session)
 class CheckUser(Resource): 
     def get(self):  
         if "user_id" not in session:
-            return {"message": "Not authorized"}, 403
+            return {"message": "Not authorized -CU12"}, 403
         if user := db.session.get(User, session["user_id"]):
             return user_schema.dump(user), 200
-        return {"message": "Not Authorized"}, 403
+        return {"message": "Not Authorized -CU15"}, 403

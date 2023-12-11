@@ -12,6 +12,8 @@ from flask_marshmallow import Marshmallow
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 # Local imports
 
 # Instantiate app, set attributes

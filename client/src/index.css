@@ -1,4 +1,4 @@
-body {
+html, body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  height: 100%;
 }
 
 body element.style {
@@ -24,13 +25,20 @@ body element.style {
   --bg-color: #eaecef;
   --main-txt-color: #04070a;
 
-  background: var(--bg-color);
+  /* background: var(--bg-color); */
   color: var(--main-txt-color);
+}
+
+#flex {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
 }
 
 /* MUI header style */
 div#box main.css-19kzrtu {
   padding: 0;
+  height: 76px;
 }
 
 #header {
@@ -57,6 +65,7 @@ div#box main.css-19kzrtu {
   width: 100%;
   margin: 0;
   padding: 0;
+  flex: 1 1 auto;
 }
 
 img {
@@ -92,6 +101,13 @@ aside img {
   align-self: center;
 }
 
+aside.card img {
+  width: 400px;
+  height: 200px;
+  justify-self: center;
+  align-self: center;
+}
+
 .layout-grid {
   padding-block: 2rem;
   width: min(80%, 70rem);
@@ -110,6 +126,21 @@ aside img {
   .grid-col-span-2 {
       grid-column: span 2;
   }
+
+  aside.card img {
+    width: 200px;
+  }
+}
+
+#container {
+  width: 80%;
+  padding: 2rem;
+  margin: auto;
+}
+
+.flex_container {
+  display: flex;
+  gap: 2rem;
 }
 
 a {
@@ -121,9 +152,44 @@ a:hover {
   text-decoration: none;
 }
 
-#container {
+button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  margin: 1rem 0;
+  border-radius: 50px;
+  /* background-color: rgba(0, 0, 0, 0); */
+  background-color: var(--peach);
+  border: none;
+  display: block;
+}
+
+button a {
+  color: var(--main-txt-color);
+}
+
+button:hover {
+  /* background-color: rgba(53, 75, 80, 0.1); */
+  background-color: var(--gold);
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form,
+.form {
   width: 80%;
-  padding: 2rem;
+  margin: auto;
+}
+
+label, 
+.block {
+  display: block;
+  width: 80%;
+  margin: 1rem;
 }
 
 ::selection {
@@ -144,18 +210,3 @@ a:hover {
   padding: 0 0 0 2rem;
 }
 
-button {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  margin: 1rem 0;
-  background-color: var(--dark-blue);
-  border: none;
-}
-
-button a {
-  color: var(--bg-color);
-}
-
-button:hover {
-  background-color: var(--light-blue);
-}

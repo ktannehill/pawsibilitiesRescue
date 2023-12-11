@@ -27,7 +27,7 @@ const fetchAll = async () => {
 
 const fetchOne = async (id, asyncThunk) => {
     try {
-        const resp = await fetch(`/productions/${id}`)
+        const resp = await fetch(`/events/${id}`)
         const data = await resp.json()
         if (resp.ok) {
             return data
@@ -39,61 +39,61 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-const postEvent = async (vals, asyncThunk) => {
-    try {
-        const resp = await fetch("/events", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vals)
-        })
-        const data = await resp.json()
-        if (resp.ok) {
-            return data
-        } else {
-            throw data.message
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const postEvent = async (vals, asyncThunk) => {
+//     try {
+//         const resp = await fetch("/events", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(vals)
+//         })
+//         const data = await resp.json()
+//         if (resp.ok) {
+//             return data
+//         } else {
+//             throw data.message
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
-const patchEvent = async ({ id, vals }, asyncThunk) => {
-    try {
-        const resp = await fetch(`/events/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(vals)
-        })
-        const data = await resp.json()
-        if (resp.ok) {
-            return data
-        } else {
-            throw data.message || data.msg
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const patchEvent = async ({ id, vals }, asyncThunk) => {
+//     try {
+//         const resp = await fetch(`/events/${id}`, {
+//             method: "PATCH",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(vals)
+//         })
+//         const data = await resp.json()
+//         if (resp.ok) {
+//             return data
+//         } else {
+//             throw data.message || data.msg
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
-const deleteEvent = async (id, asyncThunk) => {
-    try {
-        const resp = await fetch(`/events/${id}`, {
-            method: "DELETE"
-        })
-        if (resp.ok) {
-            return { id }
-        } else {
-            const data = await resp.json()
-            throw data.message || data.msg
-        }
-    } catch (error) {
-        return error
-    }
-}
+// const deleteEvent = async (id, asyncThunk) => {
+//     try {
+//         const resp = await fetch(`/events/${id}`, {
+//             method: "DELETE"
+//         })
+//         if (resp.ok) {
+//             return { id }
+//         } else {
+//             const data = await resp.json()
+//             throw data.message || data.msg
+//         }
+//     } catch (error) {
+//         return error
+//     }
+// }
 
 const eventSlice = createSlice({
     name: "event",
