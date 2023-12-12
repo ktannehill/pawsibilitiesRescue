@@ -16,7 +16,7 @@ const ViewOne = () => {
       if (id !== prevIdRef.current || !event) {
         const {payload} = await dispatch(fetchOneEvent(id))
         if (typeof payload !== "string") {
-          console.log(payload)
+          // console.log(payload)
         } else {
           console.log(payload)
           navigate("/")

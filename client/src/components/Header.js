@@ -44,21 +44,27 @@ const Header = (props) => {
         <Divider />
         <List>
             <ListItem disablePadding>
-                <ListItemButton sx={{ textAlign: 'left' }}>
-                    <ListItemText primary="Volunteer" />
-                </ListItemButton>
+                <Link to="/events">
+                    <ListItemButton sx={{ textAlign: 'left' }}>
+                        <ListItemText primary="Volunteer" />
+                    </ListItemButton>
+                </Link>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton sx={{ textAlign: 'left' }}>
-                    <ListItemText primary="View Pets" />
-                </ListItemButton>
+                <Link to="/pets">
+                    <ListItemButton sx={{ textAlign: 'left' }}>
+                        <ListItemText primary="View Pets" />
+                    </ListItemButton>
+                </Link>
             </ListItem>
             {user ? (
                 <>
                     <ListItem disablePadding>
-                        <ListItemButton sx={{ textAlign: 'left' }}>
-                            <ListItemText primary="Profile" />
-                        </ListItemButton>
+                        <Link to="/profile">
+                            <ListItemButton sx={{ textAlign: 'left' }}>
+                                <ListItemText primary="Profile" />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                     <ListItem disablePadding onClick={handleLogout}>
                         <ListItemButton sx={{ textAlign: 'left' }}>
@@ -68,9 +74,11 @@ const Header = (props) => {
                 </>
             ) : (
                 <ListItem disablePadding>
-                    <ListItemButton sx={{ textAlign: 'left' }}>
-                        <ListItemText primary="Login" />
-                    </ListItemButton>
+                    <Link to="/login">
+                        <ListItemButton sx={{ textAlign: 'left' }}>
+                            <ListItemText primary="Login" />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
             )}
         </List>

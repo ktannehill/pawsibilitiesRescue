@@ -111,7 +111,7 @@ def seed_events():
             title = event['title'],
             description = event['description'],
             location = event['location'],
-            event_date = datetime.strptime(str(event['event_date']), '%Y-%m-%d %H:%M')
+            event_date = event['event_date']
         )
         db.session.add(new_event) 
     db.session.commit()
@@ -127,6 +127,7 @@ def seed_users():
             username = fake_username,
             email = fake.email(),
         )
+        new_user.confirmed = False
         new_user.password_hash = "password"
         db.session.add(new_user)
     db.session.commit()

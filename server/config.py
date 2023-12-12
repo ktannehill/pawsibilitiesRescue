@@ -11,6 +11,8 @@ from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
 from dotenv import load_dotenv
 import os
+from flask_mail import Mail
+from itsdangerous import URLSafeSerializer
 
 load_dotenv()
 
@@ -22,6 +24,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 app.secret_key = os.environ.get("APP_SECRET")
+app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
@@ -39,3 +47,6 @@ CORS(app)
 
 bcrypt = Bcrypt(app)
 ma = Marshmallow(app)
+mail = Mail(app)
+
+s = URLSafeSerializer(os.environ.get("APP_SECRET"))

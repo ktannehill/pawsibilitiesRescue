@@ -46,6 +46,8 @@ const logoutUser = async () => {
 
 const register = async ({ url, values }, asyncThunk) => {
     try {
+        console.log(url)
+        console.log("US50: ", values)
         const resp = await fetch(url, {
             method: "POST",
             headers: {
@@ -55,11 +57,13 @@ const register = async ({ url, values }, asyncThunk) => {
         })
         const data = await resp.json()
         if (resp.ok) {
+            console.log("US60: ", data)
             return data
         } else {
             throw data.message
         }
     } catch (error) {
+        console.log("Error: ", error)
         return error
     }
 }
@@ -109,10 +113,6 @@ const userSlice = createSlice({
             state.loading = false
             state.errors = []
         }),
-        // logout: create.reducer((state) => {
-        //     state.data = null
-        //     state.errors = []
-        // }),
         addError: create.reducer((state, action) => {
             state.errors.push(action.payload)
         }),
