@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { fetchPatchUser, fetchRegister } from '../features/user/userSlice'
 
-const FormComp = () => {
+const FormComp = ({ url }) => {
   const user = useSelector(state => state.user.data)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -38,10 +38,9 @@ const FormComp = () => {
         //   let id = user.id
         //   const action = await dispatch(fetchPatchUser({id, values}))
         // } else {
-          const action = await dispatch(fetchRegister({values}))
+          const action = await dispatch(fetchRegister({url, values}))
         // }
         if (typeof action.payload !== "string") {
-          console.log(action.payload)
           navigate("/")
         } else {
           console.log(action.payload)

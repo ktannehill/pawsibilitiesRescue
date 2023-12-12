@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-# Standard library imports
-
-# Remote library imports
+# Standard/ Remote library imports
 from werkzeug.exceptions import NotFound
+from itsdangerous import SignatureExpired
 
 # Local imports
-from config import app, db, api
+from config import app, api, db, s
 # Add your model imports
 from models.event import Event
 from models.pet import Pet
@@ -45,6 +44,19 @@ api.add_resource(CheckUser, "/check_user")
 def handle_404(error):
     response = {"message": error.description}
     return response, error.code
+
+@app.route("/confirm_email/<token>")
+def confirm_email(token):
+    try:
+        email = s.loads(token, salt="email-confirm", max_age=600)
+        user = User.query.filter_by(email=email).first()
+        user.confirmed = True
+        db.session.commit()
+        return 
+
+    except SignatureExpired:
+        return {"message": "Token expired"}, 400
+    return 
 
 
 if __name__ == '__main__':

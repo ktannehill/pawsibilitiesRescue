@@ -14,7 +14,7 @@ const Authentication = () => {
 
   const handleClick = () => setLogin((login) => !login)
 
-  const url = login ? "/user_login" : "/users"
+  const url = login ? "/user_login" : "/signup"
 
   return (
     <div id="container" className="center">
@@ -36,7 +36,11 @@ const Authentication = () => {
             onSubmit={async (values) => {
               const action = await dispatch(fetchRegister({url, values}))
               if (typeof action.payload !== "string") {
+                console.log(action)
                 toast.success(`Welcome ${action.payload.username}!`)
+                if (action.payload.requiresConfirmation) {
+                  toast.info("Please check your email to confirm your account.");
+                }
                 navigate("/")
               } else {
                 toast.error(action.payload)
@@ -61,7 +65,7 @@ const Authentication = () => {
           </div>
         </>
       ) : (
-        <FormComp />
+        <FormComp url={url} />
       )}
     </div>
   )

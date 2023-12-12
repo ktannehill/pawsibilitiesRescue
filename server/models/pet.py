@@ -58,7 +58,6 @@ class Pet(db.Model):
     
     @validates("description")
     def validate_desc(self, _, desc):
-        print(f"Desc: {desc}")
         if not isinstance(desc, str):
             raise TypeError("Description must be a string")
         elif len(desc) < 100 or len(desc) > 500:

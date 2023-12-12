@@ -1,8 +1,27 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Card from '../../components/Card'
+import { fetchDeleteUser } from './userSlice'
+import toast from 'react-hot-toast'
 
 const Profile = () => {
     const user = useSelector(state => state.user.data)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleDelete = async () => {
+        const {payload} = await dispatch(fetchDeleteUser(user.id))
+        if (typeof payload !== "string") {
+          toast.success("Profile deleted")
+          navigate("/")
+        } else {
+          toast.error(payload)
+        }
+    }
+
+    if (!user) { 
+        return "Loading..."
+    }
 
     return (
         <div>
@@ -15,7 +34,7 @@ const Profile = () => {
                     <h2>{user.first_name} {user.last_name}</h2>
                     <div className="flex_container">
                         <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                 </div>
 
