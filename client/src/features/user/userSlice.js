@@ -7,7 +7,7 @@ export const createSlice = buildCreateSlice({
 const initialState = {
     data: null,
     errors: [],
-    loading: true
+    loading: true,
 }
 
 const fetchUser = async () => {
@@ -46,8 +46,6 @@ const logoutUser = async () => {
 
 const register = async ({ url, values }, asyncThunk) => {
     try {
-        console.log(url)
-        console.log("US50: ", values)
         const resp = await fetch(url, {
             method: "POST",
             headers: {
@@ -57,7 +55,6 @@ const register = async ({ url, values }, asyncThunk) => {
         })
         const data = await resp.json()
         if (resp.ok) {
-            console.log("US60: ", data)
             return data
         } else {
             throw data.message
@@ -68,14 +65,14 @@ const register = async ({ url, values }, asyncThunk) => {
     }
 }
 
-const patchUser = async ({ id, vals }, asyncThunk) => {
+const patchUser = async ({ id, values }, asyncThunk) => {
     try {
         const resp = await fetch(`/users/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(vals)
+            body: JSON.stringify(values)
         })
         const data = await resp.json()
         if (resp.ok) {

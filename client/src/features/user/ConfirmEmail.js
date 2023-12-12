@@ -1,26 +1,37 @@
+import { useEffect } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { fetchRegister } from './userSlice'
-import { useState } from 'react';
-import FormComp from "../../components/FormComp";
 import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { fetchRegister } from './userSlice'
 
-const Authentication = () => {
-  const [login, setLogin] = useState(true)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+const ConfirmEmail = () => {
+    const user = useSelector(state => state.user.data)
+    const { token } = useParams()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-  const handleClick = () => setLogin((login) => !login)
+    useEffect(() => {
+        fetch(`/confirm_email/${token}`)
+        .then(resp => {
+            if (resp.ok) {
+                resp.json().then(data => {
+                    toast.success("Email confirmed, please log in!")
+                })
+            } else {
+                resp.json().then(err => {
+                    toast.error(err)
+                })
+            }
+        })
+    }, [])
 
-  const url = login ? "/user_login" : "/signup"
+    const url = "/user_login"
 
-  return (
-    <div id="container" className="center">
-      {login ? (
-        <>
-          <Formik
+    return (
+        <div id="container" className="center">
+            <Formik
             initialValues={{ 
               username: '', 
               password: '' }
@@ -55,16 +66,8 @@ const Authentication = () => {
                 <button type="submit">Submit</button>
             </Form>
           </Formik>
-          <div className="form">
-            <h2>Don't have an account?</h2>
-            <button onClick={handleClick}>Sign up</button>
-          </div>
-        </>
-      ) : (
-        <FormComp url={url} />
-      )}
-    </div>
-  )
+        </div>
+    )
 }
 
-export default Authentication
+export default ConfirmEmail

@@ -1,22 +1,24 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { fetchRegister } from '../features/user/userSlice'
+import { fetchPatchUser } from './userSlice'
 import toast from 'react-hot-toast'
 
-const FormComp = ({ url }) => {
+const UserEdit = ({ handleToggle }) => {
+  const user = useSelector(state => state.user.data)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const {id, first_name, last_name, username, email} = user
 
   return (
     <Formik
       initialValues={{ 
-        first_name: '', 
-        last_name: '', 
-        username: '', 
-        email: '', 
-        password: '' }
+        first_name: first_name, 
+        last_name: last_name, 
+        username: username, 
+        email: email}
       }
       validationSchema={Yup.object({
         first_name: Yup.string()
@@ -29,16 +31,13 @@ const FormComp = ({ url }) => {
           .min(5, 'Must be at least 5 characters')
           .required('Required'),
         email: Yup.string().email('Invalid email address').required('Required'),
-        password: Yup.string()
-          .min(8, 'Must be at least 8 characters')
-          .required('Required'),
       })}
       onSubmit={async (values) => {
-          const action = await dispatch(fetchRegister({url, values}))
+        const action = await dispatch(fetchPatchUser({id, values}))
         if (typeof action.payload !== "string") {
-          toast.success(`Welcome ${action.payload.username}!`)
-          toast.success("A confirmation email has been sent.")
-          navigate("/")
+          toast.success("Successfully updated profile.")
+          navigate("/profile")
+          handleToggle(false)
         } else {
           toast.error(action.payload)
         }
@@ -62,9 +61,9 @@ const FormComp = ({ url }) => {
           <Field name="email" type="email" className="block" />
           <ErrorMessage name="email" className="block" />
 
-          <label htmlFor="password">Password</label>
+          {/* <label htmlFor="password">Password</label>
           <Field name="password" type="password" className="block" />
-          <ErrorMessage name="password" className="block" />
+          <ErrorMessage name="password" className="block" /> */}
         </div>
 
           <button type="submit">Submit</button>
@@ -73,4 +72,4 @@ const FormComp = ({ url }) => {
   );
 };
 
-export default FormComp
+export default UserEdit

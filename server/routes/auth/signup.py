@@ -26,15 +26,14 @@ class Signup(Resource):
             session["user_id"] = user.id
             serialized_user = user_schema.dump(user)
 
-            print("SU29: ", serialized_user)
-
             token = s.dumps(user.email, salt="email-confirm")
-            msg = Message(subject="Confirm Email", sender="pawsibilitiesrescueproject@gmail.com", recipients=[user.email])
-            link = url_for("confirm_email", token=token, _external=True)
-            msg.body = f"<h2>Welcome, {user.first_name}!</h2> <p>Your confirmation link is {link}</p>"
+            msg = Message(subject="Confirm Email", recipients=[user.email])
+            link = f"http://127.0.0.1:4000/confirm_email/{token}"
+            msg.html = f"<h2>Welcome, {user.first_name}!</h2> <p>Follow <a href={link}>this link</a> to activate your account.</p>"
+            msg.content_type = "text/html"
             mail.send(msg)
 
-            return {"user": serialized_user, "requiresConfirmation": True}, 201
+            return serialized_user, 201
         except (ValidationError, ValueError, IntegrityError) as e:
             db.session.rollback()
             abort(400, str(e))
