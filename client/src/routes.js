@@ -5,6 +5,7 @@ import Authentication from "./features/user/Authentication"
 import Profile from "./features/user/Profile"
 import ViewAll from "./pages/ViewAll"
 import ViewOne from "./pages/ViewOne"
+import ConfirmEmail from "./features/user/ConfirmEmail"
 
 const routes = [
     {
@@ -26,8 +27,8 @@ const routes = [
                 element: <Profile />,
             },
             {
-                path: "/profile/edit",
-                element: <Authentication />,
+                path: "/confirm_email/:token",
+                element: <ConfirmEmail />,
             },
             {
                 path: "/pets",

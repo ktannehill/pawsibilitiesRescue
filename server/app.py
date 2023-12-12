@@ -12,6 +12,8 @@ from models.pet import Pet
 from models.user import User
 from models.user_events import UserEvent
 
+from schemas.user_schema import UserSchema
+
 from routes.users import Users
 from routes.user_by_id import UserById
 from routes.events import Events
@@ -22,6 +24,8 @@ from routes.auth.signup import Signup
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.check_user import CheckUser
+
+user_schema = UserSchema(session=db.session)
 
 # Views go here!
 
@@ -47,16 +51,17 @@ def handle_404(error):
 
 @app.route("/confirm_email/<token>")
 def confirm_email(token):
+    print(token)
     try:
         email = s.loads(token, salt="email-confirm", max_age=600)
+        print(email)
         user = User.query.filter_by(email=email).first()
         user.confirmed = True
         db.session.commit()
-        return 
+        return {"user": user_schema.dump(user)}, 200
 
     except SignatureExpired:
         return {"message": "Token expired"}, 400
-    return 
 
 
 if __name__ == '__main__':
