@@ -25,6 +25,7 @@ const ConfirmEmail = () => {
                 })
             }
         })
+        .catch(err => toast.error(err))
     }, [])
 
     const url = "/user_login"

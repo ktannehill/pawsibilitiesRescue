@@ -12,8 +12,6 @@ const ViewOne = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const prevIdRef = useRef()
-
-  console.log(data)
   
   useEffect(() => {
     (async () => {
@@ -45,6 +43,7 @@ const ViewOne = () => {
 
   const handleAddEvent = (id) => {
     if (user.confirmed) {
+      console.log(user)
     } else{
       toast.error("Please confirm email before volunteering!")
     }

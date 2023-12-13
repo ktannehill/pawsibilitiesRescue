@@ -24,6 +24,22 @@ const Profile = () => {
         }
     }
 
+    const handleResend = () => {
+        fetch(`/resend_confirmation_email/${user.id}`)
+        .then(resp => {
+            if (resp.ok) {
+                resp.json().then(data => {
+                    toast.success("Confirmation email resent successfully")
+                })
+            } else {
+                resp.json().then(err => {
+                    toast.error(err)
+                })
+            }
+        })
+        .catch(err => toast.error(err))
+    }
+
     if (!user) { 
         return "Loading..."
     }
@@ -43,7 +59,12 @@ const Profile = () => {
                     </div>
                     <main>
                         <div id="container">
-                            {!user.confirmed && <p>Please confirm your email</p>}
+                            {!user.confirmed && (
+                                <div className="flex_container">
+                                    <p>Please confirm your email</p>
+                                    <button onClick={handleResend}>Resend Link</button>
+                                </div>
+                            )}
                             <h2>{user.first_name} {user.last_name}</h2>
                             <div className="flex_container">
                                 <button onClick={() => handleToggle(true)}>Edit</button>

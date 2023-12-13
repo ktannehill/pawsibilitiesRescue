@@ -2,7 +2,6 @@ import { useEffect, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
-// import AlertBar from "./components/AlertBar";
 import Footer from "./components/Footer";
 import { fetchCurrentUser } from './features/user/userSlice'
 import { clearErrors as clearUserErrors} from './features/user/userSlice'
