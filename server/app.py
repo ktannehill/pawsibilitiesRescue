@@ -24,6 +24,7 @@ from routes.auth.signup import Signup
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.check_user import CheckUser
+from routes.volunteer import UserEvents
 from utilities import send_confirmation_email
 
 user_schema = UserSchema(session=db.session)
@@ -44,6 +45,7 @@ api.add_resource(Signup, "/signup")
 api.add_resource(Login, "/user_login")
 api.add_resource(Logout, "/logout")
 api.add_resource(CheckUser, "/check_user")
+api.add_resource(UserEvents, "/volunteer")
 
 @app.errorhandler(NotFound)
 def handle_404(error):

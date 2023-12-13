@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchOneEvent } from '../features/event/eventSlice'
 import { fetchOnePet } from '../features/pet/petSlice'
+import { fetchCurrentUser } from '../features/user/userSlice'
 import toast from 'react-hot-toast'
 
 const ViewOne = () => {
@@ -43,7 +44,26 @@ const ViewOne = () => {
 
   const handleAddEvent = (id) => {
     if (user.confirmed) {
-      console.log(user)
+      fetch("/volunteer", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ event_id: id }),
+      })
+      .then(resp => {
+          if (resp.ok) {
+              resp.json().then(data => {
+                  toast.success("Successfully signed up for volunteer event!")
+                  dispatch(fetchCurrentUser())
+              })
+          } else {
+              resp.json().then(err => {
+                  toast.error(err.message)
+              })
+          }
+      })
+      .catch(err => toast.error(err))
     } else{
       toast.error("Please confirm email before volunteering!")
     }
@@ -73,7 +93,7 @@ const ViewOne = () => {
             <p>{data.location}</p>
             <p>{data.event_date}</p>
             <p>{data.description}</p>
-            <button onClick={handleAddEvent}>Volunteer</button>
+            <button onClick={() => handleAddEvent(id)}>Volunteer</button>
           </>
         ) : (
           <>

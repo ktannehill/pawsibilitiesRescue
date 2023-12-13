@@ -77,8 +77,8 @@ const Profile = () => {
                             <div className="form">
                                 <p>Your volunteer events</p>
                             </div>
-                                {user.events.map(event => (
-                                    <Card  key={event.id} event={event} />
+                                {user.events.map(item => (
+                                    <Card  key={item.id} item={item} entityType="events" />
                                 ))}
                             </>
                         ) : (
