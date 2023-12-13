@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
@@ -6,29 +6,25 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { fetchCurrentUser } from './features/user/userSlice'
 import { clearErrors as clearUserErrors} from './features/user/userSlice'
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
     const user = useSelector(state => state.user.data)
     const userErrors = useSelector(state => state.user.errors)
-    // const eventErrors = useSelector(state => state.event.errors)
-    // const petErrors = useSelector(state => state.pet.errors)
-    const errors = [...userErrors]
+    const eventErrors = useSelector(state => state.event.errors)
+    const petErrors = useSelector(state => state.pet.errors)
+    const errors = useMemo(() => [...userErrors, ...eventErrors, ...petErrors], [
+      userErrors,
+      eventErrors,
+      petErrors,
+    ]);
     const dispatch = useDispatch()
 
     useEffect(() => {
         (async () => {
-          if (!user) {
-            const {payload} = await dispatch(fetchCurrentUser())
-            if (typeof payload !== "string") {
-                return
-                // toast.success("App19: ", payload)
-            } else {
-                // toast.error("App21: ", payload)
-            }
-          }
+          if (!user) {dispatch(fetchCurrentUser())}
         })()
-      }, [user])
+      }, [user, dispatch])
 
       useEffect(() => {
         if (errors.length) {

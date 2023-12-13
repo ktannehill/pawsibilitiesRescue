@@ -39,14 +39,14 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-// const postEvent = async (vals, asyncThunk) => {
+// const postEvent = async (values, asyncThunk) => {
 //     try {
 //         const resp = await fetch("/events", {
 //             method: "POST",
 //             headers: {
 //                 "Content-Type": "application/json"
 //             },
-//             body: JSON.stringify(vals)
+//             body: JSON.stringify(values)
 //         })
 //         const data = await resp.json()
 //         if (resp.ok) {
@@ -59,14 +59,14 @@ const fetchOne = async (id, asyncThunk) => {
 //     }
 // }
 
-// const patchEvent = async ({ id, vals }, asyncThunk) => {
+// const patchEvent = async ({ id, values }, asyncThunk) => {
 //     try {
 //         const resp = await fetch(`/events/${id}`, {
 //             method: "PATCH",
 //             headers: {
 //                 "Content-Type": "application/json"
 //             },
-//             body: JSON.stringify(vals)
+//             body: JSON.stringify(values)
 //         })
 //         const data = await resp.json()
 //         if (resp.ok) {
