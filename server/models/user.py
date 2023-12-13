@@ -31,7 +31,7 @@ class User(db.Model):
             raise TypeError("First name must be a string")
         elif len(first) < 1 or len(first) > 50:
             raise ValueError("First name must be between 1-50 characters")
-        return first
+        return first.title()
     
     @validates("last_name")
     def validate_last(self, _, last):
@@ -39,7 +39,7 @@ class User(db.Model):
             raise TypeError("Last name must be a string")
         elif len(last) < 1 or len(last) > 50:
             raise ValueError("Last name must be between 1-50 characters")
-        return last
+        return last.title()
     
     @validates("username")
     def validate_username(self, _, username):
@@ -50,6 +50,14 @@ class User(db.Model):
         elif not re.match(r"^[a-zA-Z0-9_-]+$", username):
             raise ValueError("Usernames may only contain alphanumeric characters, dashes(-), or underscores(_)")
         return username
+    
+    @validates("email")
+    def validate_email(self, _, email):
+        if not isinstance(email, str):
+            raise TypeError("Email must be a string")
+        elif len(email) < 5 or len(email) > 100:
+            raise ValueError("Email must be between 5-100 characters")
+        return email.strip()
 
     @hybrid_property
     def password_hash(self):

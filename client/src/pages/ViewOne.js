@@ -56,6 +56,7 @@ const ViewOne = () => {
               resp.json().then(data => {
                   toast.success("Successfully signed up for volunteer event!")
                   dispatch(fetchCurrentUser())
+                  dispatch(fetchOneEvent(id))
               })
           } else {
               resp.json().then(err => {
@@ -94,6 +95,16 @@ const ViewOne = () => {
             <p>{data.event_date}</p>
             <p>{data.description}</p>
             <button onClick={() => handleAddEvent(id)}>Volunteer</button>
+            {data.users.length ? (
+              <>
+                <p>Volunteers</p>
+                <ul>
+                  {data.users.map(user => (
+                    <li key={user.id}>{user.username}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
           </>
         ) : (
           <>

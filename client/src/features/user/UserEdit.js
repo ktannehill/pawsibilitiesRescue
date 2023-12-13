@@ -23,9 +23,11 @@ const UserEdit = ({ handleToggle }) => {
       validationSchema={Yup.object({
         first_name: Yup.string()
           .min(1, 'Must be at least 1 characters')
+          .matches(/^[A-Za-z]+$/, 'Must contain only alphabetic letters')
           .required('Required'),
         last_name: Yup.string()
           .min(1, 'Must be at least 1 characters')
+          .matches(/^[A-Za-z]+$/, 'Must contain only alphabetic letters')
           .required('Required'),
         username: Yup.string()
           .min(5, 'Must be at least 5 characters')
@@ -66,7 +68,10 @@ const UserEdit = ({ handleToggle }) => {
           <ErrorMessage name="password" className="block" /> */}
         </div>
 
+        <div className="flex_container">
           <button type="submit">Submit</button>
+          <button onClick={() => handleToggle(false)}>Cancel</button>
+        </div>
       </Form>
     </Formik>
   );
