@@ -43,30 +43,34 @@ const ViewOne = () => {
   },[data, id, dispatch, navigate, entityType])
 
   const handleAddEvent = (id) => {
-    if (user.confirmed) {
-      fetch("/volunteer", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ event_id: id }),
-      })
-      .then(resp => {
-          if (resp.ok) {
-              resp.json().then(data => {
-                  toast.success("Successfully signed up for volunteer event!")
-                  dispatch(fetchCurrentUser())
-                  dispatch(fetchOneEvent(id))
-              })
-          } else {
-              resp.json().then(err => {
-                  toast.error(err.message)
-              })
-          }
-      })
-      .catch(err => toast.error(err))
+    if (user) {
+      if (user.confirmed) {
+        fetch("/volunteer", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ event_id: id }),
+        })
+        .then(resp => {
+            if (resp.ok) {
+                resp.json().then(data => {
+                    toast.success("Successfully signed up for volunteer event!")
+                    dispatch(fetchCurrentUser())
+                    dispatch(fetchOneEvent(id))
+                })
+            } else {
+                resp.json().then(err => {
+                    toast.error(err.message)
+                })
+            }
+        })
+        .catch(err => toast.error(err))
+      } else{
+        toast.error("Please confirm email before volunteering!")
+      }
     } else{
-      toast.error("Please confirm email before volunteering!")
+      toast.error("Please create an account before volunteering!")
     }
   }
 
@@ -91,10 +95,14 @@ const ViewOne = () => {
   }
   
   const handleFoster = (id) => {
-    if (user.confirmed) {
-      console.log(user)
+    if(user) {
+      if (user.confirmed) {
+        console.log(user)
+      } else{
+        toast.error("Please confirm email before fostering!")
+      }
     } else{
-      toast.error("Please confirm email before fostering!")
+      toast.error("Please create an account before fostering!")
     }
   }
   
@@ -115,7 +123,7 @@ const ViewOne = () => {
               <p>{data.location}</p>
               <p>{data.event_date}</p>
               <p>{data.description}</p>
-              {data.users?.find(data_user => data_user["id"] === user.id) ? (
+              {user && data.users?.find(data_user => data_user["id"] === user.id) ? (
                 <button onClick={() => handleRemoveEvent(id)}>Remove</button>
               ) : (
                 <button onClick={() => handleAddEvent(id)}>Volunteer</button>

@@ -17,22 +17,22 @@ const Authentication = () => {
 
   const url = login ? "/user_login" : "/signup"
 
-  console.log(token)
-
   useEffect(() => {
-    fetch(`/confirm_email/${token}`)
-    .then(resp => {
-        if (resp.ok) {
-            resp.json().then(data => {
-                toast.success("Email confirmed, please log in!")
-            })
-        } else {
-            resp.json().then(err => {
-                toast.error(err)
-            })
-        }
-    })
-    .catch(err => toast.error(err))
+    if (token) {
+      fetch(`/confirm_email/${token}`)
+      .then(resp => {
+          if (resp.ok) {
+              resp.json().then(data => {
+                  toast.success("Email confirmed, please log in!")
+              })
+          } else {
+              resp.json().then(err => {
+                  toast.error(err)
+              })
+          }
+      })
+      .catch(err => toast.error(err))
+    }
 }, [token])
 
   return (
