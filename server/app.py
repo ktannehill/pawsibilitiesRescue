@@ -24,6 +24,7 @@ from routes.auth.signup import Signup
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.check_user import CheckUser
+from utilities import send_confirmation_email
 
 user_schema = UserSchema(session=db.session)
 
@@ -48,6 +49,15 @@ api.add_resource(CheckUser, "/check_user")
 def handle_404(error):
     response = {"message": error.description}
     return response, error.code
+
+@app.route("/resend_confirmation_email/<int:user_id>")
+def resend_confirmation_email(user_id):
+    user = User.query.get(user_id)
+    if user:
+        send_confirmation_email(user)
+        return {"user": user_schema.dump(user)}, 200
+    else:
+        return {"message": "User not found"}, 404
 
 @app.route("/confirm_email/<token>")
 def confirm_email(token):

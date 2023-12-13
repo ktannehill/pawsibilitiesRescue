@@ -2,9 +2,9 @@ from flask import request, session, abort, url_for
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from marshmallow import ValidationError
-from flask_mail import Message
-from config import db, mail, s
+from config import db
 from schemas.user_schema import UserSchema
+from utilities import send_confirmation_email
 
 user_schema = UserSchema(session=db.session)
 
@@ -24,16 +24,10 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
             session["user_id"] = user.id
-            serialized_user = user_schema.dump(user)
 
-            token = s.dumps(user.email, salt="email-confirm")
-            msg = Message(subject="Confirm Email", recipients=[user.email])
-            link = f"http://127.0.0.1:4000/confirm_email/{token}"
-            msg.html = f"<h2>Welcome, {user.first_name}!</h2> <p>Follow <a href={link}>this link</a> to activate your account.</p>"
-            msg.content_type = "text/html"
-            mail.send(msg)
+            send_confirmation_email(user)
 
-            return serialized_user, 201
+            return user_schema.dump(user), 201
         except (ValidationError, ValueError, IntegrityError) as e:
             db.session.rollback()
             abort(400, str(e))
