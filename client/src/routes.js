@@ -31,19 +31,19 @@ const routes = [
                 element: <ConfirmEmail />,
             },
             {
-                path: "/pets",
+                path: "/:entityType",
                 element: <ViewAll />,
             },
             {
-                path: "/pets/:id",
+                path: "/:entityType/:id",
                 element: <ViewOne />,
             },
             {
-                path: "/events",
+                path: "/:entityType",
                 element: <ViewAll />,
             },
             {
-                path: "/events/:id",
+                path: "/:entityType/:id",
                 element: <ViewOne />,
             }
         ],

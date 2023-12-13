@@ -39,14 +39,14 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-// const postPet = async (vals, asyncThunk) => {
+// const postPet = async (values, asyncThunk) => {
 //     try {
 //         const resp = await fetch("/pets", {
 //             method: "POST",
 //             headers: {
 //                 "Content-Type": "application/json"
 //             },
-//             body: JSON.stringify(vals)
+//             body: JSON.stringify(values)
 //         })
 //         const data = await resp.json()
 //         if (resp.ok) {
@@ -59,14 +59,14 @@ const fetchOne = async (id, asyncThunk) => {
 //     }
 // }
 
-// const patchPet = async ({ id, vals }, asyncThunk) => {
+// const patchPet = async ({ id, values }, asyncThunk) => {
 //     try {
 //         const resp = await fetch(`/pets/${id}`, {
 //             method: "PATCH",
 //             headers: {
 //                 "Content-Type": "application/json"
 //             },
-//             body: JSON.stringify(vals)
+//             body: JSON.stringify(values)
 //         })
 //         const data = await resp.json()
 //         if (resp.ok) {
@@ -162,6 +162,6 @@ const petSlice = createSlice({
     }
 })
 
-export const { setPet, addError, clearErrors, fetchAllEPes, fetchOnePet } = petSlice.actions
+export const { setPet, addError, clearErrors, fetchAllPets, fetchOnePet } = petSlice.actions
 export const { selectPet, selectErrors } = petSlice.selectors
 export default petSlice.reducer
