@@ -69,6 +69,26 @@ const ViewOne = () => {
       toast.error("Please confirm email before volunteering!")
     }
   }
+
+  const handleRemoveEvent = (id) => {
+    fetch(`/volunteer_by_id/${id}`, {
+      method: 'DELETE',
+    })
+    .then(resp => {
+        if (resp.ok) {
+            resp.json().then(data => {
+                toast.success("No longer signed up for volunteer event.")
+                dispatch(fetchOneEvent(id))
+                dispatch(fetchCurrentUser())
+            })
+        } else {
+            resp.json().then(err => {
+                toast.error(err.message)
+            })
+        }
+    })
+    .catch(err => toast.error(err))
+  }
   
   const handleFoster = (id) => {
     if (user.confirmed) {
@@ -94,7 +114,11 @@ const ViewOne = () => {
             <p>{data.location}</p>
             <p>{data.event_date}</p>
             <p>{data.description}</p>
-            <button onClick={() => handleAddEvent(id)}>Volunteer</button>
+            {data.users?.find(data_user => data_user["id"] === user.id) ? (
+              <button onClick={() => handleRemoveEvent(id)}>Remove</button>
+            ) : (
+              <button onClick={() => handleAddEvent(id)}>Volunteer</button>
+            )}
             {data.users.length ? (
               <>
                 <p>Volunteers</p>

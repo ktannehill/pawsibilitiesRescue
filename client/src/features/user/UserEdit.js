@@ -62,10 +62,6 @@ const UserEdit = ({ handleToggle }) => {
           <label htmlFor="email">Email Address</label>
           <Field name="email" type="email" className="block" />
           <ErrorMessage name="email" className="block" />
-
-          {/* <label htmlFor="password">Password</label>
-          <Field name="password" type="password" className="block" />
-          <ErrorMessage name="password" className="block" /> */}
         </div>
 
         <div className="flex_container">

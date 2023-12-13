@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Card from '../../components/Card'
 import { fetchDeleteUser } from './userSlice'
 import toast from 'react-hot-toast'
@@ -75,7 +75,7 @@ const Profile = () => {
                         {user.events.length ? (
                             <>
                             <div className="form">
-                                <p>Your volunteer events</p>
+                                <h3>Your volunteer events</h3>
                             </div>
                                 {user.events.map(item => (
                                     <Card  key={item.id} item={item} entityType="events" />
