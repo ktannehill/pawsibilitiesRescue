@@ -33,12 +33,12 @@ const App = () => {
 
     return (
         <div id="flex">
-            <Header className="row" />
+            <Header />
             <Toaster/>
             <div id="outlet">
                 <Outlet />
             </div>
-            <Footer className="row" />
+            <Footer />
         </div>
     )
 }

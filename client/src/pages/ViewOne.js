@@ -103,42 +103,44 @@ const ViewOne = () => {
   }
 
   return (
-    <div id="main" className="layout-grid">
-      <aside>
-        <img src={data.image} alt={entityType === 'events' ? data.title : data.name} />
-      </aside>
-      <div className="grid-col-span-2">
-        <h1>{entityType === 'events' ? data.title : data.name}</h1>
-        {entityType === 'events' ? (
-          <>
-            <p>{data.location}</p>
-            <p>{data.event_date}</p>
-            <p>{data.description}</p>
-            {data.users?.find(data_user => data_user["id"] === user.id) ? (
-              <button onClick={() => handleRemoveEvent(id)}>Remove</button>
-            ) : (
-              <button onClick={() => handleAddEvent(id)}>Volunteer</button>
-            )}
-            {data.users.length ? (
-              <>
-                <p>Volunteers</p>
-                <ul>
-                  {data.users.map(user => (
-                    <li key={user.id}>{user.username}</li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
-          </>
-        ) : (
-          <>
-            <p>{data.species}</p>
-            <p>{data.breed}</p>
-            <p>{data.est_birthday}</p>
-            <p>{data.description}</p>
-            <button onClick={handleFoster}>Foster</button>
-          </>
-        )}
+    <div id="container">
+      <div className="layout-grid">
+        <aside>
+          <img src={data.image} alt={entityType === 'events' ? data.title : data.name} />
+        </aside>
+        <main className="grid-col-span-2">
+          <h1>{entityType === 'events' ? data.title : data.name}</h1>
+          {entityType === 'events' ? (
+            <>
+              <p>{data.location}</p>
+              <p>{data.event_date}</p>
+              <p>{data.description}</p>
+              {data.users?.find(data_user => data_user["id"] === user.id) ? (
+                <button onClick={() => handleRemoveEvent(id)}>Remove</button>
+              ) : (
+                <button onClick={() => handleAddEvent(id)}>Volunteer</button>
+              )}
+              {data.users.length ? (
+                <>
+                  <p>Volunteers</p>
+                  <ul>
+                    {data.users.map(user => (
+                      <li key={user.id}>{user.username}</li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+            </>
+          ) : (
+            <>
+              <p>{data.species}</p>
+              <p>{data.breed}</p>
+              <p>{data.est_birthday}</p>
+              <p>{data.description}</p>
+              <button onClick={handleFoster}>Foster</button>
+            </>
+          )}
+        </main>
       </div>
     </div>
   )

@@ -25,7 +25,6 @@ body element.style {
   --bg-color: #eaecef;
   --main-txt-color: #04070a;
 
-  /* background: var(--bg-color); */
   color: var(--main-txt-color);
 }
 
@@ -94,27 +93,34 @@ img {
   z-index: 1000;
 }
 
+#container {
+  width: 80%;
+  padding: 2rem 0;
+  margin: auto;
+}
+
 aside img {
-  width: 400px;
-  height: 450px;
+  width: 100%;
+  min-width: 250px;
+  height: 400px;
   justify-self: center;
   align-self: center;
 }
 
 aside.card img {
-  width: 400px;
+  width: 100%;
   height: 200px;
   justify-self: center;
   align-self: center;
 }
 
 .layout-grid {
-  padding-block: 2rem;
-  width: min(80%, 70rem);
-  margin-inline: auto;
+  padding: 1rem 0;
   display: grid;
   gap: 2rem;
   grid-auto-columns: 1fr;
+  grid-template-columns: repeat( auto-fit, minmax(400px, 1fr) );
+  transition: all 0.3s;
   align-items: center;
 }
 
@@ -126,21 +132,15 @@ aside.card img {
   .grid-col-span-2 {
       grid-column: span 2;
   }
-
-  aside.card img {
-    width: 200px;
-  }
-}
-
-#container {
-  width: 80%;
-  padding: 2rem;
-  margin: auto;
 }
 
 .flex_container {
   display: flex;
   gap: 2rem;
+}
+
+.flex_container h2 {
+  flex-grow: 1;
 }
 
 a {
@@ -157,7 +157,6 @@ button {
   font-size: 1rem;
   margin: 1rem 0;
   border-radius: 50px;
-  /* background-color: rgba(0, 0, 0, 0); */
   background-color: var(--peach);
   border: none;
   display: block;
@@ -168,28 +167,25 @@ button a {
 }
 
 button:hover {
-  /* background-color: rgba(53, 75, 80, 0.1); */
   background-color: var(--gold);
   cursor: pointer;
 }
 
-.center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-form,
-.form {
-  width: 80%;
+#form {
+  width: 40%;
+  padding: 2rem 0;
   margin: auto;
 }
 
 label, 
 .block {
   display: block;
-  width: 80%;
-  margin: 1rem;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+input {
+  padding: 0.5rem;
 }
 
 ::selection {

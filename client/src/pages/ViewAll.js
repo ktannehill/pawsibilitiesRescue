@@ -58,9 +58,9 @@ const ViewAll = () => {
                     </>
                 )}
             </div>
-            <div>
+            <main id="container">
                 {data && mappedEvents}
-            </div>
+            </main>
         </div>
   )
 }
