@@ -5,7 +5,6 @@ import Authentication from "./features/user/Authentication"
 import Profile from "./features/user/Profile"
 import ViewAll from "./pages/ViewAll"
 import ViewOne from "./pages/ViewOne"
-import ConfirmEmail from "./features/user/ConfirmEmail"
 
 const routes = [
     {
@@ -23,12 +22,12 @@ const routes = [
                 element: <Authentication />,
             },
             {
-                path: "/profile/",
-                element: <Profile />,
+                path: "/login/:token",
+                element: <Authentication />,
             },
             {
-                path: "/confirm_email/:token",
-                element: <ConfirmEmail />,
+                path: "/profile",
+                element: <Profile />,
             },
             {
                 path: "/:entityType",

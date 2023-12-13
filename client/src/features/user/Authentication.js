@@ -1,14 +1,15 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { fetchRegister } from './userSlice'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormComp from "../../components/FormComp";
 import toast from 'react-hot-toast'
 
 const Authentication = () => {
   const [login, setLogin] = useState(true)
+  const { token } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -16,8 +17,26 @@ const Authentication = () => {
 
   const url = login ? "/user_login" : "/signup"
 
+  useEffect(() => {
+    if (token) {
+      fetch(`/confirm_email/${token}`)
+      .then(resp => {
+          if (resp.ok) {
+              resp.json().then(data => {
+                  toast.success("Email confirmed, please log in!")
+              })
+          } else {
+              resp.json().then(err => {
+                  toast.error(err)
+              })
+          }
+      })
+      .catch(err => toast.error(err))
+    }
+}, [token])
+
   return (
-    <div id="container" className="center">
+    <div id="form">
       {login ? (
         <>
           <Formik
