@@ -7,16 +7,19 @@ class PetSchema(ma.SQLAlchemySchema):
     class Meta():
         model = Pet
         load_instance = True
-        fields = ("id", "image", "name", "species", "breed", "est_birthday", "description")
+        fields = ("id", "image", "name", "species", "breed", "sex", "est_birthday", "description")
 
     name = fields.String(required=True, 
         validate=validate.Length(min=1, max=50, error="Name must be between 1-50 characters")
     )
     species = fields.String(required=True, 
-        validate=validate.Length(min=3, max=3, error="Species must be 'cat' or 'dog' -marsh")
+        validate=validate.Length(min=3, max=3, error="Species must be 'cat' or 'dog'")
     )
     breed = fields.String(required=True, 
         validate=validate.Length(min=1, max=50, error="Breed must be between 1-50 characters")
+    )
+    sex = fields.String(required=True, 
+        validate=validate.Length(min=3, error="Sex must be 'female' or 'male'")
     )
     description = fields.String(required=True, 
         validate=validate.Length(min=160, max=480, error="Description must be between 160-480 characters")

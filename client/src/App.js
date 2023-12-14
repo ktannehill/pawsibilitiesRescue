@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { fetchCurrentUser } from './features/user/userSlice'
 import { clearErrors as clearUserErrors} from './features/user/userSlice'
 import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast'
 
 const App = () => {
     const user = useSelector(state => state.user.data)
@@ -21,7 +22,14 @@ const App = () => {
 
     useEffect(() => {
         (async () => {
-          if (!user) {dispatch(fetchCurrentUser())}
+          if (!user) {
+            try {
+              dispatch(fetchCurrentUser())
+            }
+            catch (error) {
+              toast.error('Server is not available. Please try again later.');
+            }
+          }
         })()
       }, [user, dispatch])
 

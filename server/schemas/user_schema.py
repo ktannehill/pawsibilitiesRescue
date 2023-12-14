@@ -8,7 +8,7 @@ class UserSchema(ma.SQLAlchemySchema):
         model = User
         load_instance = True
         # fields is what you want returned, serialized
-        fields = ("id", "first_name", "last_name", "username", "email", "confirmed", "events")
+        fields = ("id", "first_name", "last_name", "username", "email", "confirmed", "admin", "events")
 
     first_name = fields.String(required=True, 
         validate=validate.Length(min=1, max=50, error="First name must be between 1-50 characters")
