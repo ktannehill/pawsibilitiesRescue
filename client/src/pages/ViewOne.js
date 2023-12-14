@@ -123,22 +123,29 @@ const ViewOne = () => {
               <p>{data.location}</p>
               <p>{data.event_date}</p>
               <p>{data.description}</p>
+
+              <div className="flex_container">
               {user && data.users?.find(data_user => data_user["id"] === user.id) ? (
                 <button onClick={() => handleRemoveEvent(id)}>Remove</button>
               ) : (
                 <button onClick={() => handleAddEvent(id)}>Volunteer</button>
               )}
+              {user && user.admin && (
+                    <div className="flex_container">
+                      <button onClick={() => handleAddEvent(id)}>Edit</button>
+                      <button onClick={() => handleAddEvent(id)}>Delete</button>
+                    </div>
+                  )}
+              </div>
+
               <p>{data.users.length} Volunteers</p>
-              {/* {data.users.length ? (
-                <>
-                  <p>Volunteers</p>
+              {data.users.length && user && user.admin ? (
                   <ul>
                     {data.users.map(user => (
                       <li key={user.id}>{user.username}</li>
                     ))}
                   </ul>
-                </>
-              ) : null} */}
+              ) : null}
             </>
           ) : (
             <>
