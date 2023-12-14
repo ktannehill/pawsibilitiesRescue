@@ -21,17 +21,17 @@ const Authentication = () => {
     if (token) {
       fetch(`/confirm_email/${token}`)
       .then(resp => {
-          if (resp.ok) {
-              resp.json().then(data => {
-                  toast.success("Email confirmed, please log in!")
-              })
-          } else {
-              resp.json().then(err => {
-                  toast.error(err)
-              })
-          }
+        if (resp.ok) {
+          resp.json().then(data => {
+            toast.success("Email confirmed, please log in!")
+          })
+        } else {
+          resp.json().then(err => {
+            toast.error(err.message)
+          })
+        }
       })
-      .catch(err => toast.error(err))
+      .catch(err => toast.error(err.message))
     }
 }, [token])
 

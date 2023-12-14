@@ -12,7 +12,7 @@ from flask_marshmallow import Marshmallow
 from dotenv import load_dotenv
 import os
 from flask_mail import Mail
-from itsdangerous import URLSafeSerializer
+from itsdangerous import URLSafeTimedSerializer
 
 load_dotenv()
 
@@ -50,4 +50,4 @@ bcrypt = Bcrypt(app)
 ma = Marshmallow(app)
 mail = Mail(app)
 
-s = URLSafeSerializer(os.environ.get("APP_SECRET"))
+s = URLSafeTimedSerializer(os.environ.get("APP_SECRET"))
