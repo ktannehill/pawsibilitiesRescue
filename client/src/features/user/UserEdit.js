@@ -49,19 +49,19 @@ const UserEdit = ({ handleToggle }) => {
         <div>
           <label htmlFor="first_name">First name</label>
           <Field name="first_name" type="text" className="block" />
-          <ErrorMessage name="first_name" className="block" />
+          <ErrorMessage name="first_name" component="span" className="block error_msg" />
 
           <label htmlFor="last_name">Last name</label>
           <Field name="last_name" type="text" className="block" />
-          <ErrorMessage name="last_name" className="block" />
+          <ErrorMessage name="last_name" component="span" className="block error_msg" />
 
           <label htmlFor="username">Username</label>
           <Field name="username" type="text" className="block" />
-          <ErrorMessage name="username" className="block" />
+          <ErrorMessage name="username" component="span" className="block error_msg" />
 
           <label htmlFor="email">Email Address</label>
           <Field name="email" type="email" className="block" />
-          <ErrorMessage name="email" className="block" />
+          <ErrorMessage name="email" component="span" className="block error_msg" />
         </div>
 
         <div className="flex_container">

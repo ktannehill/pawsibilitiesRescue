@@ -173,6 +173,7 @@ button:hover {
 
 #form {
   width: 40%;
+  min-width: 300px;
   padding: 2rem 0;
   margin: auto;
 }
@@ -186,6 +187,12 @@ label,
 
 input {
   padding: 0.5rem;
+}
+
+.error_msg {
+  font-size: 0.75rem;
+  color: darkred;
+  text-align: right;
 }
 
 ::selection {

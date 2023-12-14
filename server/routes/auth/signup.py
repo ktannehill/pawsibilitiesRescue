@@ -12,10 +12,10 @@ class Signup(Resource):
     def post(self):
         try:
             data = {
-                "first_name": request.get_json().get("first_name"),
-                "last_name": request.get_json().get("last_name"),
-                "username": request.get_json().get("username"),
-                "email": request.get_json().get("email"),
+                "first_name": request.get_json().get("first_name").title(),
+                "last_name": request.get_json().get("last_name").title(),
+                "username": request.get_json().get("username").lower(),
+                "email": request.get_json().get("email").lower(),
             }
             user_schema.validate(data)
             user = user_schema.load(data)
@@ -28,7 +28,11 @@ class Signup(Resource):
             send_confirmation_email(user)
 
             return user_schema.dump(user), 201
-        except (ValidationError, ValueError, IntegrityError) as e:
+        except IntegrityError as e:
+            # (sqlite3.IntegrityError) UNIQUE constraint failed:
+            db.session.rollback()
+            return {"message": "Email or username already in use"}, 400
+        except (ValidationError, ValueError) as e:
             db.session.rollback()
             abort(400, str(e))
 

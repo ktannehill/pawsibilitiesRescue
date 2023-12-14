@@ -128,7 +128,8 @@ const ViewOne = () => {
               ) : (
                 <button onClick={() => handleAddEvent(id)}>Volunteer</button>
               )}
-              {data.users.length ? (
+              <p>{data.users.length} Volunteers</p>
+              {/* {data.users.length ? (
                 <>
                   <p>Volunteers</p>
                   <ul>
@@ -137,7 +138,7 @@ const ViewOne = () => {
                     ))}
                   </ul>
                 </>
-              ) : null}
+              ) : null} */}
             </>
           ) : (
             <>
