@@ -65,11 +65,11 @@ const Authentication = () => {
             <Form>
                 <label htmlFor="username">Username or Email</label>
                 <Field name="username" type="text" className="block" />
-                <ErrorMessage name="username" className="block" />
+                <ErrorMessage name="username" component="span" className="block error_msg" />
 
                 <label htmlFor="password">Password</label>
                 <Field name="password" type="password" className="block" />
-                <ErrorMessage name="password" className="block" />
+                <ErrorMessage name="password" component="span" className="block error_msg" />
 
                 <button type="submit">Submit</button>
             </Form>
