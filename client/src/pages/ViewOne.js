@@ -5,7 +5,8 @@ import { fetchOneEvent, fetchDeleteEvent } from '../features/event/eventSlice'
 import { fetchOnePet, fetchDeletePet } from '../features/pet/petSlice'
 import { fetchCurrentUser } from '../features/user/userSlice'
 import toast from 'react-hot-toast'
-// import EditForm from '../components/EditForm'
+import EditForm from '../components/EditForm'
+import { GiMale, GiFemale } from "react-icons/gi";
 
 const ViewOne = () => {
   const { entityType, id } = useParams()
@@ -128,7 +129,7 @@ const ViewOne = () => {
         toast.error(payload)
       }
     }
-}
+  }
   
   if (!data) { 
     return "Loading..."
@@ -139,7 +140,7 @@ const ViewOne = () => {
       {edit ? (
         <main  id="form">
           <h2>Edit {entityType === 'events' ? "Event" : "Pet"}</h2>
-          {/* <EditForm handleToggle={handleToggle} data={data} /> */}
+          <EditForm handleToggle={handleToggle} entityType={entityType} />
         </main>
       ) : (
         <>
@@ -181,8 +182,7 @@ const ViewOne = () => {
                   </>
                 ) : (
                   <>
-                    <p>{data.species}</p>
-                    <p>{data.breed}</p>
+                    <p>{data.sex === "female" ? <GiFemale /> : <GiMale />} {data.breed}</p>
                     <p>{data.est_birthday}</p>
                     <p>{data.description}</p>
 
