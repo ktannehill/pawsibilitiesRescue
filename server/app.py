@@ -2,10 +2,12 @@
 
 # Standard/ Remote library imports
 from werkzeug.exceptions import NotFound
+from flask import session
+from flask_mail import Message
 from itsdangerous import SignatureExpired, BadSignature
 
 # Local imports
-from config import app, api, db, s
+from config import app, api, db, mail, s
 # Add your model imports
 from models.event import Event
 from models.pet import Pet
@@ -76,6 +78,25 @@ def confirm_email(token, expiration=30):
         db.session.commit()
         return {"user": user_schema.dump(user)}, 200
     return {"message": "No matching user found"}, 400
+
+@app.route("/event_confirmation_email/<int:id>")
+def event_confirmation_email(id):
+    print(id)
+    if "user_id" not in session:
+            return {"message": "Not authorized"}, 403
+    if user := db.session.get(User, session["user_id"]):
+        print(user)
+        event = db.session.get(Event, id)
+        print(event)
+        msg = Message(subject="Volunteer Confirmation", recipients=[user.email])
+        msg.html = (f"<h2>Thanks for signing up for {event.title}!</h2>" 
+            f"<p>Location: {event.location}</p>"
+            f"<p>Date: {event.event_date}</p>"
+            f"<p>Description: {event.description}</p>")
+        msg.content_type = "text/html"
+        mail.send(msg)
+        return {"user": user_schema.dump(user)}, 200
+    return {"message": "Not Authorized"}, 403
 
 
 if __name__ == '__main__':

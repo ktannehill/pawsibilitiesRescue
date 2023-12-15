@@ -10,8 +10,9 @@ const Home = () => {
         <div id="container">
             <main className="layout-grid">
                 <article className="grid-col-span-2">
+                    <h1>Paw-sibilities Rescue</h1>
                     <p>
-                        Paw-sibilities Rescue is more than just a shelter; we are a community dedicated to creating a world where every animal has the opportunity for a loving home. Our mission is to ease the burden on local shelters by providing a caring and nurturing space for animals in need. With a commitment to compassion and hope, we strive to eliminate the need for euthanasia in shelters, working tirelessly to place each precious life in a forever home.
+                        is more than just a shelter; we are a community dedicated to creating a world where every animal has the opportunity for a loving home. Our mission is to ease the burden on local shelters by providing a caring and nurturing space for animals in need. With a commitment to compassion and hope, we strive to eliminate the need for euthanasia in shelters, working tirelessly to place each precious life in a forever home.
                     </p>
                     <p>
                         At Paw-sibilities Rescue, we believe in the power of love to transform lives. Through our dedicated team and community of volunteers, we inspire paw-sitivity and invite everyone to join us on this journey. Together, we can make a difference in the lives of animals, one paw at a time. <IoPaw />
