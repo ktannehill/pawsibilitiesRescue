@@ -1,18 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchOneEvent } from '../features/event/eventSlice'
-import { fetchOnePet } from '../features/pet/petSlice'
+import { fetchOneEvent, fetchDeleteEvent } from '../features/event/eventSlice'
+import { fetchOnePet, fetchDeletePet } from '../features/pet/petSlice'
 import { fetchCurrentUser } from '../features/user/userSlice'
 import toast from 'react-hot-toast'
+// import EditForm from '../components/EditForm'
 
 const ViewOne = () => {
   const { entityType, id } = useParams()
   const data = useSelector(state => entityType === 'events' ? state.event.spotlight : state.pet.spotlight)
   const user = useSelector(state => state.user.data)
+  const [edit, setEdit] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const prevIdRef = useRef()
+
+  const handleToggle = (val) => setEdit(val)
   
   useEffect(() => {
     (async () => {
@@ -105,60 +109,100 @@ const ViewOne = () => {
       toast.error("Please create an account before fostering!")
     }
   }
+
+  const handleDelete = async () => {
+    if (entityType === 'events') {
+      const {payload} = await dispatch(fetchDeleteEvent(id))
+      if (typeof payload !== "string") {
+        navigate("/events")
+        toast.success("Event deleted")
+      } else {
+        toast.error(payload)
+      }
+    } else if (entityType === 'pets') {
+      const {payload} = await dispatch(fetchDeletePet(id))
+      if (typeof payload !== "string") {
+        navigate("/pets")
+        toast.success("Pet deleted")
+      } else {
+        toast.error(payload)
+      }
+    }
+}
   
   if (!data) { 
     return "Loading..."
   }
 
   return (
-    <div id="container">
-      <div className="layout-grid">
-        <aside>
-          <img src={data.image} alt={entityType === 'events' ? data.title : data.name} />
-        </aside>
-        <main className="grid-col-span-2">
-          <h1>{entityType === 'events' ? data.title : data.name}</h1>
-          {entityType === 'events' ? (
-            <>
-              <p>{data.location}</p>
-              <p>{data.event_date}</p>
-              <p>{data.description}</p>
-
-              <div className="flex_container">
-              {user && data.users?.find(data_user => data_user["id"] === user.id) ? (
-                <button onClick={() => handleRemoveEvent(id)}>Remove</button>
-              ) : (
-                <button onClick={() => handleAddEvent(id)}>Volunteer</button>
-              )}
-              {user && user.admin && (
-                    <div className="flex_container">
-                      <button onClick={() => handleAddEvent(id)}>Edit</button>
-                      <button onClick={() => handleAddEvent(id)}>Delete</button>
-                    </div>
-                  )}
-              </div>
-
-              <p>{data.users.length} Volunteers</p>
-              {data.users.length && user && user.admin ? (
-                  <ul>
-                    {data.users.map(user => (
-                      <li key={user.id}>{user.username}</li>
-                    ))}
-                  </ul>
-              ) : null}
-            </>
-          ) : (
-            <>
-              <p>{data.species}</p>
-              <p>{data.breed}</p>
-              <p>{data.est_birthday}</p>
-              <p>{data.description}</p>
-              <button onClick={handleFoster}>Foster</button>
-            </>
-          )}
+    <>
+      {edit ? (
+        <main  id="form">
+          <h2>Edit {entityType === 'events' ? "Event" : "Pet"}</h2>
+          {/* <EditForm handleToggle={handleToggle} data={data} /> */}
         </main>
-      </div>
-    </div>
+      ) : (
+        <>
+          <div id="container">
+            <div className="layout-grid">
+              <aside>
+                <img src={data.image} alt={entityType === 'events' ? data.title : data.name} />
+              </aside>
+              <main className="grid-col-span-2">
+                <h1>{entityType === 'events' ? data.title : data.name}</h1>
+                {entityType === 'events' ? (
+                  <>
+                    <p>{data.location}</p>
+                    <p>{data.event_date}</p>
+                    <p>{data.description}</p>
+
+                    <div className="flex_container">
+                      {user && data.users?.find(data_user => data_user["id"] === user.id) ? (
+                        <button onClick={() => handleRemoveEvent(id)}>Remove</button>
+                      ) : (
+                        <button onClick={() => handleAddEvent(id)}>Volunteer</button>
+                      )}
+                      {user && user.admin && (
+                        <div className="flex_container">
+                          <button onClick={() => handleToggle(true)}>Edit</button>
+                          <button onClick={handleDelete}>Delete</button>
+                        </div>
+                      )}
+                    </div>
+
+                    <p>{data.users.length} Volunteers</p>
+                    {data.users.length && user && user.admin ? (
+                        <ul>
+                          {data.users.map(user => (
+                            <li key={user.id}>{user.username}</li>
+                          ))}
+                        </ul>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    <p>{data.species}</p>
+                    <p>{data.breed}</p>
+                    <p>{data.est_birthday}</p>
+                    <p>{data.description}</p>
+
+                    <div className="flex_container">
+                      <button onClick={handleFoster}>Foster</button>
+                      {user && user.admin && (
+                        <div className="flex_container">
+                          <button onClick={() => handleToggle(true)}>Edit</button>
+                          <button onClick={handleDelete}>Delete</button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </main>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   )
 }
 

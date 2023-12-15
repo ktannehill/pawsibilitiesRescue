@@ -3,8 +3,9 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { fetchCurrentUser } from './features/user/userSlice'
-import { clearErrors as clearUserErrors} from './features/user/userSlice'
+import { fetchCurrentUser, clearErrors as clearUserErrors } from './features/user/userSlice'
+import { clearErrors as clearEventErrors } from './features/event/eventSlice'
+import { clearErrors as clearPetErrors } from './features/pet/petSlice'
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast'
 
@@ -36,6 +37,8 @@ const App = () => {
       useEffect(() => {
         if (errors.length) {
             dispatch(clearUserErrors(""))
+            dispatch(clearEventErrors(""))
+            dispatch(clearPetErrors(""))
         }
       }, [errors, dispatch])
 
