@@ -5,6 +5,7 @@ import Authentication from "./features/user/Authentication"
 import Profile from "./features/user/Profile"
 import ViewAll from "./pages/ViewAll"
 import ViewOne from "./pages/ViewOne"
+import Create from "./pages/Create"
 
 const routes = [
     {
@@ -44,7 +45,11 @@ const routes = [
             {
                 path: "/:entityType/:id",
                 element: <ViewOne />,
-            }
+            },
+            {
+                path: "/:entityType/new",
+                element: <Create />,
+            },
         ],
     },
 ];

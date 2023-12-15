@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Card from '../../components/Card'
 import { fetchDeleteUser } from './userSlice'
 import toast from 'react-hot-toast'
@@ -47,7 +47,7 @@ const Profile = () => {
     return (
         <>
             {edit ? (
-                <main  id="form">
+                <main id="form">
                     <h2>Edit Profile</h2>
                     <UserEdit handleToggle={handleToggle} />
                 </main>
@@ -71,6 +71,17 @@ const Profile = () => {
                                 <button onClick={handleDelete}>Delete</button>
                             </div>
                         </div>
+                        {user.admin && (
+                            <div className="flex_container">
+                                <Link to="/events/new">
+                                    <button>New Event</button>
+                                </Link>
+                                <Link to="/pets/new">
+                                    <button>New Pet</button>
+                                </Link>
+                                <button>View Fosters</button>
+                            </div>
+                        )}
 
                         {user.events.length ? (
                             <>

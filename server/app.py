@@ -89,7 +89,8 @@ def event_confirmation_email(id):
         event = db.session.get(Event, id)
         print(event)
         msg = Message(subject="Volunteer Confirmation", recipients=[user.email])
-        msg.html = (f"<h2>Thanks for signing up for {event.title}!</h2>" 
+        msg.html = (f"<h3>Thanks, {user.first_name}, for signing up for</h3>" 
+            f"<h2>{event.title}</h2>"
             f"<p>Location: {event.location}</p>"
             f"<p>Date: {event.event_date}</p>"
             f"<p>Description: {event.description}</p>")
