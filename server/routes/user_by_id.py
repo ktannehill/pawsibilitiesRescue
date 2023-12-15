@@ -31,7 +31,11 @@ class UserById(Resource):
             )
             db.session.commit()
             return user_schema.dump(updated_user), 200
-        except (ValueError, ValidationError, IntegrityError) as e:
+        except IntegrityError as e:
+            # (sqlite3.IntegrityError) UNIQUE constraint failed:
+            db.session.rollback()
+            return {"message": "Email or username already in use"}, 400
+        except (ValidationError, ValueError) as e:
             db.session.rollback()
             abort(400, str(e))
 

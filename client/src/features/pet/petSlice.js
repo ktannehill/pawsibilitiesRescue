@@ -59,41 +59,41 @@ const fetchOne = async (id, asyncThunk) => {
 //     }
 // }
 
-// const patchPet = async ({ id, values }, asyncThunk) => {
-//     try {
-//         const resp = await fetch(`/pets/${id}`, {
-//             method: "PATCH",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(values)
-//         })
-//         const data = await resp.json()
-//         if (resp.ok) {
-//             return data
-//         } else {
-//             throw data.message || data.msg
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const patchPet = async ({ id, values }, asyncThunk) => {
+    try {
+        const resp = await fetch(`/pets/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        })
+        const data = await resp.json()
+        if (resp.ok) {
+            return data
+        } else {
+            throw data.message || data.msg
+        }
+    } catch (error) {
+        return error
+    }
+}
 
-// const deletePet = async (id, asyncThunk) => {
-//     try {
-//         const resp = await fetch(`/pets/${id}`, {
-//             method: "DELETE"
-//         })
-//         if (resp.ok) {
-//             return { id }
-//         } else {
-//             const data = await resp.json()
-//             throw data.message || data.msg
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const deletePet = async (id, asyncThunk) => {
+    try {
+        const resp = await fetch(`/pets/${id}`, {
+            method: "DELETE"
+        })
+        if (resp.ok) {
+            return { id }
+        } else {
+            const data = await resp.json()
+            throw data.message || data.msg
+        }
+    } catch (error) {
+        return error
+    }
+}
 
 const petSlice = createSlice({
     name: "pet",
@@ -147,7 +147,53 @@ const petSlice = createSlice({
                     }
                 }
             }
-        )
+        ),
+        fetchPatchPet: create.asyncThunk(
+            patchPet,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (!action.payload.id) {
+                        state.errors.push(action.payload)
+                    } else {
+                        const index = state.data.findIndex(pet => pet.id === parseInt(action.payload.id))
+                        state.data[index] = action.payload
+                        state.spotlight = null
+                    }
+                }
+            }
+        ),
+        fetchDeletePet: create.asyncThunk(
+            deletePet,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (typeof action.payload === "string") {
+                        state.errors.push(action.payload)
+                    } else {
+                        const index = state.data.findIndex(pet => pet.id === parseInt(action.payload.id))
+                        state.data.splice(index, 1)
+                        state.spotlight = null
+                    }
+                }
+            }
+        ),
     }),
     selectors: {
         selectPets(state){
@@ -162,6 +208,6 @@ const petSlice = createSlice({
     }
 })
 
-export const { setPet, addError, clearErrors, fetchAllPets, fetchOnePet } = petSlice.actions
+export const { setPet, addError, clearErrors, fetchAllPets, fetchOnePet, fetchPatchPet, fetchDeletePet } = petSlice.actions
 export const { selectPet, selectErrors } = petSlice.selectors
 export default petSlice.reducer

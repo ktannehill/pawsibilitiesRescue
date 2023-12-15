@@ -14,6 +14,7 @@ class User(db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
     confirmed = db.Column(db.Boolean, server_default="0")
+    admin = db.Column(db.Boolean, server_default="0")
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 

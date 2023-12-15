@@ -117,8 +117,8 @@ def seed_events():
     db.session.commit()
     print("Events added!")
 
-def seed_users():
-    for _ in range(50):
+def seed_admins():
+    for _ in range(5):
         fake_username = fake.email().split("@")[0]
 
         new_user = User(
@@ -127,7 +127,22 @@ def seed_users():
             username = fake_username,
             email = fake.email(),
         )
-        new_user.confirmed = False
+        new_user.admin = True
+        new_user.password_hash = "password"
+        db.session.add(new_user)
+    db.session.commit()
+    print("Admins added!")
+
+def seed_users():
+    for _ in range(25):
+        fake_username = fake.email().split("@")[0]
+
+        new_user = User(
+            first_name = fake.first_name(),
+            last_name = fake.last_name(),
+            username = fake_username,
+            email = fake.email(),
+        )
         new_user.password_hash = "password"
         db.session.add(new_user)
     db.session.commit()
@@ -144,6 +159,7 @@ def seed_pets():
             name = fake.first_name(),
             species = rc(["cat", "dog"]),
             breed = rc(BREEDS),
+            sex = rc(["female", "male"]),
             est_birthday = fake.date_between(start_date=start_date, end_date=end_date),
             description = fake.paragraph(nb_sentences=7),
         )
@@ -153,7 +169,7 @@ def seed_pets():
 
 def associate_user_events():
     for _ in range(30):
-        user_instance = db.session.query(User).filter_by(id=random.randrange(1, 50)).first()
+        user_instance = db.session.query(User).filter_by(id=random.randrange(1, 30)).first()
         event_instance = db.session.query(Event).filter_by(id=random.randrange(1, len(EVENTS))).first()
 
         existing_association = db.session.query(UserEvent).filter_by(
@@ -171,6 +187,7 @@ if __name__ == '__main__':
         print("Starting seed...")
         clear_tables()
         seed_events()
+        seed_admins()
         seed_users()
         seed_pets()
         associate_user_events()

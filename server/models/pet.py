@@ -10,6 +10,7 @@ class Pet(db.Model):
     name = db.Column(db.String, nullable=False)
     species = db.Column(db.String, nullable=False)
     breed = db.Column(db.String, nullable=False)
+    sex = db.Column(db.String, nullable=False)
     est_birthday = db.Column(db.Date, nullable=False)
     description = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -35,7 +36,7 @@ class Pet(db.Model):
         if not isinstance(species, str):
             raise TypeError("Species must be a string")
         elif species.lower() not in ["cat", "dog"]:
-            raise ValueError("Species must be 'cat' or 'dog' -model")
+            raise ValueError("Species must be 'cat' or 'dog'")
         return species
     
     @validates("breed")
@@ -46,12 +47,20 @@ class Pet(db.Model):
             raise ValueError("Breed must be between 1-50 characters")
         return breed
     
+    @validates("sex")
+    def validate_sex(self, _, sex):
+        if not isinstance(sex, str):
+            raise TypeError("Sex must be a string")
+        elif sex.lower() not in ["female", "male"]:
+            raise ValueError("Sex must be 'female' or 'male'")
+        return sex
+    
     @validates("est_birthday")
     def validate_birthday(self, _, birthday):
         try:
             birthday_dt = datetime.strptime(str(birthday), '%Y-%m-%d')
         except ValueError:
-            raise ValueError("Date must be in YYYY-MM-DD format -model")
+            raise ValueError("Date must be in YYYY-MM-DD format")
         if birthday_dt.date() > datetime.now().date():
             raise ValueError("Birthday cannot be in the future")
         return birthday_dt

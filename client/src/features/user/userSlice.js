@@ -60,7 +60,6 @@ const register = async ({ url, values }, asyncThunk) => {
             throw data.message
         }
     } catch (error) {
-        console.log("Error: ", error)
         return error
     }
 }

@@ -59,41 +59,41 @@ const fetchOne = async (id, asyncThunk) => {
 //     }
 // }
 
-// const patchEvent = async ({ id, values }, asyncThunk) => {
-//     try {
-//         const resp = await fetch(`/events/${id}`, {
-//             method: "PATCH",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(values)
-//         })
-//         const data = await resp.json()
-//         if (resp.ok) {
-//             return data
-//         } else {
-//             throw data.message || data.msg
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const patchEvent = async ({ id, values }, asyncThunk) => {
+    try {
+        const resp = await fetch(`/events/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        })
+        const data = await resp.json()
+        if (resp.ok) {
+            return data
+        } else {
+            throw data.message
+        }
+    } catch (error) {
+        return error
+    }
+}
 
-// const deleteEvent = async (id, asyncThunk) => {
-//     try {
-//         const resp = await fetch(`/events/${id}`, {
-//             method: "DELETE"
-//         })
-//         if (resp.ok) {
-//             return { id }
-//         } else {
-//             const data = await resp.json()
-//             throw data.message || data.msg
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const deleteEvent = async (id, asyncThunk) => {
+    try {
+        const resp = await fetch(`/events/${id}`, {
+            method: "DELETE"
+        })
+        if (resp.ok) {
+            return { id }
+        } else {
+            const data = await resp.json()
+            throw data.message
+        }
+    } catch (error) {
+        return error
+    }
+}
 
 const eventSlice = createSlice({
     name: "event",
@@ -147,7 +147,53 @@ const eventSlice = createSlice({
                     }
                 }
             }
-        )
+        ),
+        fetchPatchEvent: create.asyncThunk(
+            patchEvent,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (!action.payload.id) {
+                        state.errors.push(action.payload)
+                    } else {
+                        const index = state.data.findIndex(event => event.id === parseInt(action.payload.id))
+                        state.data[index] = action.payload
+                        state.spotlight = null
+                    }
+                }
+            }
+        ),
+        fetchDeleteEvent: create.asyncThunk(
+            deleteEvent,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (typeof action.payload === "string") {
+                        state.errors.push(action.payload)
+                    } else {
+                        const index = state.data.findIndex(event => event.id === parseInt(action.payload.id))
+                        state.data.splice(index, 1)
+                        state.spotlight = null
+                    }
+                }
+            }
+        ),
     }),
     selectors: {
         selectEvents(state){
@@ -162,6 +208,6 @@ const eventSlice = createSlice({
     }
 })
 
-export const { setEvent, addError, clearErrors, fetchAllEvents, fetchOneEvent } = eventSlice.actions
+export const { setEvent, addError, clearErrors, fetchAllEvents, fetchOneEvent, fetchPatchEvent, fetchDeleteEvent } = eventSlice.actions
 export const { selectEvent, selectErrors } = eventSlice.selectors
 export default eventSlice.reducer

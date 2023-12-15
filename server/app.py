@@ -2,7 +2,7 @@
 
 # Standard/ Remote library imports
 from werkzeug.exceptions import NotFound
-from itsdangerous import SignatureExpired
+from itsdangerous import SignatureExpired, BadSignature
 
 # Local imports
 from config import app, api, db, s
@@ -64,18 +64,18 @@ def resend_confirmation_email(user_id):
         return {"message": "User not found"}, 404
 
 @app.route("/confirm_email/<token>")
-def confirm_email(token):
-    print(token)
+def confirm_email(token, expiration=30):
     try:
-        email = s.loads(token, salt="email-confirm", max_age=600)
-        print(email)
-        user = User.query.filter_by(email=email).first()
+        email = s.loads(token, salt="email-confirm", max_age=expiration)
+    except SignatureExpired:
+        return {"message": "Token expired"}, 400
+    except BadSignature:
+        return {"message": "Invalid token"}, 400
+    if user := User.query.filter_by(email=email).first():
         user.confirmed = True
         db.session.commit()
         return {"user": user_schema.dump(user)}, 200
-
-    except SignatureExpired:
-        return {"message": "Token expired"}, 400
+    return {"message": "No matching user found"}, 400
 
 
 if __name__ == '__main__':
