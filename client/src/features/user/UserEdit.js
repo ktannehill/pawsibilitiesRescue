@@ -37,7 +37,7 @@ const UserEdit = ({ handleToggle }) => {
       onSubmit={async (values) => {
         const action = await dispatch(fetchPatchUser({id, values}))
         if (typeof action.payload !== "string") {
-          toast.success("Successfully updated profile.")
+          toast.success("Successfully updated profile")
           navigate("/profile")
           handleToggle(false)
         } else {
