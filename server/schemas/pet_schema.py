@@ -14,6 +14,7 @@ class PetSchema(ma.SQLAlchemySchema):
     )
     species = fields.String(required=True, 
         validate=validate.Length(min=3, max=3, error="Species must be 'cat' or 'dog'")
+        # {'species': ["Species must be 'cat' or 'dog' -marsh"]}
     )
     breed = fields.String(required=True, 
         validate=validate.Length(min=1, max=50, error="Breed must be between 1-50 characters")

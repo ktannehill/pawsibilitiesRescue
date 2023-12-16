@@ -9,16 +9,17 @@ import { useEffect } from 'react';
 
 const Create = () => {
     const user = useSelector(state => state.user.data)
+    const userLoading = useSelector(state => state.user.loading)
     const { entityType } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!user.admin) {
+        if (!userLoading && !user && !user.admin) {
             navigate("/")
             toast.error("Acccess denied")
         }
-    }, [user, navigate])
+    }, [user, userLoading, navigate])
 
     const initialValues = entityType === 'events' ? (
         {
@@ -62,8 +63,8 @@ const Create = () => {
         .required("Please enter a name")
         .min(1, "Must be at least 1 characters"),
         species: Yup.string()
-        .required("Please enter a species")
-        .min(3, "Species must be 'cat' or 'dog'"),
+        .required("Please enter a species"),
+        // .min(3, "Species must be 'cat' or 'dog'"),
         breed: Yup.string()
         .required("Please enter a breed")
         .min(1, "Must be at least 1 characters"),
@@ -92,7 +93,6 @@ const Create = () => {
                     const {payload} = await dispatch(fetchPostEvent(values))
                     if (typeof payload !== "string") {
                         toast.success("Event created")
-                        console.log(payload)
                         navigate(`/events/${payload.id}`)
                     } else {
                         toast.error(payload)

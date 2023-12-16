@@ -164,7 +164,7 @@ const eventSlice = createSlice({
                     if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
-                        state.data.push(action.payload)
+                        state.spotlight = action.payload
                     }
                 }
             }

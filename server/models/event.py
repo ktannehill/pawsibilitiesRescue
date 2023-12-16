@@ -58,7 +58,7 @@ class Event(db.Model):
                 raise ValueError("Invalid date format")
 
         except ValueError:
-            raise ValueError("Date must be in YYYY-MM-DD HH:MM format -model")
+            raise ValueError("Date must be in YYYY-MM-DD HH:MM format")
         if parsed_date.date() < datetime.now().date():
             raise ValueError("Event cannot be in the past")
         return parsed_date
