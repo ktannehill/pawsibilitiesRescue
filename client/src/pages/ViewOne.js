@@ -6,7 +6,7 @@ import { fetchOnePet, fetchDeletePet } from '../features/pet/petSlice'
 import { fetchCurrentUser } from '../features/user/userSlice'
 import toast from 'react-hot-toast'
 import EditForm from '../components/EditForm'
-import { GiMale, GiFemale } from "react-icons/gi";
+import { GiMale, GiFemale } from "react-icons/gi"
 
 const ViewOne = () => {
   const { entityType, id } = useParams()
@@ -24,21 +24,21 @@ const ViewOne = () => {
       if (id !== prevIdRef.current || !data) {
         try {
           if (entityType === 'events') {
-              const { payload } = await dispatch(fetchOneEvent(id))
-              if (typeof payload === 'string') {
-                toast.error(payload)
-                navigate('/')
-              }
-            } else if (entityType === 'pets') {
-              const { payload } = await dispatch(fetchOnePet(id))
-              if (typeof payload === 'string') {
-                toast.error(payload)
-                navigate('/')
-              }
-            } else {
-              toast.error("Page does not exist")
+            const { payload } = await dispatch(fetchOneEvent(id))
+            if (typeof payload === 'string') {
+              toast.error(payload)
               navigate('/')
             }
+          } else if (entityType === 'pets') {
+            const { payload } = await dispatch(fetchOnePet(id))
+            if (typeof payload === 'string') {
+              toast.error(payload)
+              navigate('/')
+            }
+          } else {
+            toast.error("Page does not exist")
+            navigate('/')
+          }
         } catch (error) {
             toast.error("Error fetching data:", error)
         }
@@ -46,6 +46,17 @@ const ViewOne = () => {
     })()
     prevIdRef.current = id
   },[data, id, dispatch, navigate, entityType])
+
+  const confirmEvent = (id) => {
+    return fetch(`/event_confirmation_email/${id}`)
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json()
+        } else {
+          throw new Error('Failed to send confirmation email')
+        }
+      })
+  }
 
   const handleAddEvent = (id) => {
     if (user) {
@@ -58,19 +69,22 @@ const ViewOne = () => {
           body: JSON.stringify({ event_id: id }),
         })
         .then(resp => {
-            if (resp.ok) {
-                resp.json().then(data => {
-                    toast.success("Successfully signed up for volunteer event!")
-                    dispatch(fetchCurrentUser())
-                    dispatch(fetchOneEvent(id))
-                })
-            } else {
-                resp.json().then(err => {
-                    toast.error(err.message)
-                })
-            }
+          if (resp.ok) {
+            return resp.json()
+          } else {
+            throw new Error('Failed to sign up for volunteer event')
+          }
         })
-        .catch(err => toast.error(err))
+        .then(() => confirmEvent(id))
+        .then(() => {
+          toast.success("Successfully signed up for volunteer event! Check email for details.")
+          dispatch(fetchCurrentUser())
+          dispatch(fetchOneEvent(id))
+        })
+        .catch(err => {
+          console.log(err)
+          toast.error(err.message)
+        });
       } else{
         toast.error("Please confirm email before volunteering!")
       }

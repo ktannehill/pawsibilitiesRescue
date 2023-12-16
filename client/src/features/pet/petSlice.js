@@ -39,25 +39,25 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-// const postPet = async (values, asyncThunk) => {
-//     try {
-//         const resp = await fetch("/pets", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(values)
-//         })
-//         const data = await resp.json()
-//         if (resp.ok) {
-//             return data
-//         } else {
-//             throw data.message
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const postPet = async (values, asyncThunk) => {
+    try {
+        const resp = await fetch("/pets", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        })
+        const data = await resp.json()
+        if (resp.ok) {
+            return data
+        } else {
+            throw data.message
+        }
+    } catch (error) {
+        return error
+    }
+}
 
 const patchPet = async ({ id, values }, asyncThunk) => {
     try {
@@ -148,6 +148,27 @@ const petSlice = createSlice({
                 }
             }
         ),
+        fetchPostPet: create.asyncThunk(
+            postPet,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (typeof action.payload === "string") {
+                        state.errors.push(action.payload)
+                    } else {
+                        state.spotlight = action.payload
+                    }
+                }
+            }
+        ),
         fetchPatchPet: create.asyncThunk(
             patchPet,
             {
@@ -208,6 +229,6 @@ const petSlice = createSlice({
     }
 })
 
-export const { setPet, addError, clearErrors, fetchAllPets, fetchOnePet, fetchPatchPet, fetchDeletePet } = petSlice.actions
+export const { setPet, addError, clearErrors, fetchAllPets, fetchOnePet, fetchPatchPet, fetchDeletePet, fetchPostPet } = petSlice.actions
 export const { selectPet, selectErrors } = petSlice.selectors
 export default petSlice.reducer

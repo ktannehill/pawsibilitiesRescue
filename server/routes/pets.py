@@ -28,11 +28,15 @@ class Pets(Resource):
 
             pet = pet_schema.load(data)
             db.session.add(pet)
-            import ipdb; ipdb.set_trace()
             db.session.commit()
-            serialized_pet = pet_schema.dump(pet)
-            return serialized_pet, 201
+            return pet_schema.dump(pet), 201
         except (ValidationError, ValueError, IntegrityError) as e:
-            db.session.rollback()
-            abort(400, str(e))
+            if isinstance(e, ValidationError):
+                # validation_errors = e.messages
+                # formatted_errors = {}
+                # for field, errors in validation_errors.items():
+                #     formatted_errors[field] = [str(error) for error in errors]
+                abort(400, [str(error[0]) for field, error in e.messages.items()][0])
+            else:
+                abort(400, str(e))
 

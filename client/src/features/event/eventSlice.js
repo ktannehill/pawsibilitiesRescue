@@ -39,25 +39,25 @@ const fetchOne = async (id, asyncThunk) => {
     }
 }
 
-// const postEvent = async (values, asyncThunk) => {
-//     try {
-//         const resp = await fetch("/events", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(values)
-//         })
-//         const data = await resp.json()
-//         if (resp.ok) {
-//             return data
-//         } else {
-//             throw data.message
-//         }
-//     } catch (error) {
-//         return error
-//     }
-// }
+const postEvent = async (values, asyncThunk) => {
+    try {
+        const resp = await fetch("/events", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values)
+        })
+        const data = await resp.json()
+        if (resp.ok) {
+            return data
+        } else {
+            throw data.message
+        }
+    } catch (error) {
+        return error
+    }
+}
 
 const patchEvent = async ({ id, values }, asyncThunk) => {
     try {
@@ -148,6 +148,27 @@ const eventSlice = createSlice({
                 }
             }
         ),
+        fetchPostEvent: create.asyncThunk(
+            postEvent,
+            {
+                pending: (state) => {
+                    state.loading = true
+                    state.errors = []
+                },
+                rejected: (state, action) => {
+                    state.loading = false
+                    state.errors.push(action.payload)
+                },
+                fulfilled: (state, action) => {
+                    state.loading = false
+                    if (typeof action.payload === "string") {
+                        state.errors.push(action.payload)
+                    } else {
+                        state.spotlight = action.payload
+                    }
+                }
+            }
+        ),
         fetchPatchEvent: create.asyncThunk(
             patchEvent,
             {
@@ -208,6 +229,6 @@ const eventSlice = createSlice({
     }
 })
 
-export const { setEvent, addError, clearErrors, fetchAllEvents, fetchOneEvent, fetchPatchEvent, fetchDeleteEvent } = eventSlice.actions
+export const { setEvent, addError, clearErrors, fetchAllEvents, fetchOneEvent, fetchPatchEvent, fetchDeleteEvent, fetchPostEvent } = eventSlice.actions
 export const { selectEvent, selectErrors } = eventSlice.selectors
 export default eventSlice.reducer

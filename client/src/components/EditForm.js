@@ -1,6 +1,5 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { fetchPatchEvent } from '../features/event/eventSlice'
 import { fetchPatchPet } from '../features/pet/petSlice'
