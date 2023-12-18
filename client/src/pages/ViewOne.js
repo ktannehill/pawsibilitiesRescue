@@ -172,7 +172,8 @@ const ViewOne = () => {
                 {entityType === 'events' ? (
                   <>
                     <p>{data.location}</p>
-                    <p>{data.event_date}</p>
+                    {/* <p>{data.formatted_date_short}</p> */}
+                    <p>{data.formatted_date_full}</p>
                     <p>{data.description}</p>
 
                     <div className="flex_container">
