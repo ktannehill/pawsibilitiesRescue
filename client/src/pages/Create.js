@@ -63,8 +63,8 @@ const Create = () => {
         .required("Please enter a name")
         .min(1, "Must be at least 1 characters"),
         species: Yup.string()
-        .required("Please enter a species"),
-        // .min(3, "Species must be 'cat' or 'dog'"),
+        .required("Please enter a species")
+        .max(3, "Species must be 'cat' or 'dog'"),
         breed: Yup.string()
         .required("Please enter a breed")
         .min(1, "Must be at least 1 characters"),

@@ -14,8 +14,6 @@ class UserEvents(Resource):
         user_id = session['user_id']
         event_id = int(request.json.get('event_id'))
 
-        print(user_id, event_id)
-
         user_event = UserEvent.query.filter_by(user_id=user_id, event_id=event_id).first()
         if user_event:
             return {'message': 'You already volunteered for this event!'}, 400
@@ -24,7 +22,6 @@ class UserEvents(Resource):
             new_ue = UserEvent(user_id=user_id, event_id=event_id)
             db.session.add(new_ue)
             db.session.commit()
-            print(new_ue)
             return user_events_schema.dump(new_ue), 201
         except Exception as e:
             db.session.rollback()
