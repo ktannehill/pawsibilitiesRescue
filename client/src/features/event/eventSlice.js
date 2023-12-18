@@ -185,9 +185,7 @@ const eventSlice = createSlice({
                     if (!action.payload.id) {
                         state.errors.push(action.payload)
                     } else {
-                        const index = state.data.findIndex(event => event.id === parseInt(action.payload.id))
-                        state.data[index] = action.payload
-                        state.spotlight = null
+                        state.spotlight = action.payload
                     }
                 }
             }
@@ -208,8 +206,6 @@ const eventSlice = createSlice({
                     if (typeof action.payload === "string") {
                         state.errors.push(action.payload)
                     } else {
-                        const index = state.data.findIndex(event => event.id === parseInt(action.payload.id))
-                        state.data.splice(index, 1)
                         state.spotlight = null
                     }
                 }

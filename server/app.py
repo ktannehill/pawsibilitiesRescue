@@ -81,13 +81,10 @@ def confirm_email(token, expiration=30):
 
 @app.route("/event_confirmation_email/<int:id>")
 def event_confirmation_email(id):
-    print(id)
     if "user_id" not in session:
             return {"message": "Not authorized"}, 403
     if user := db.session.get(User, session["user_id"]):
-        print(user)
         event = db.session.get(Event, id)
-        print(event)
         msg = Message(subject="Volunteer Confirmation", recipients=[user.email])
         msg.html = (f"<h3>Thanks, {user.first_name}, for signing up for</h3>" 
             f"<h2>{event.title}</h2>"

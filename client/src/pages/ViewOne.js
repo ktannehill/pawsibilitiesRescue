@@ -89,7 +89,8 @@ const ViewOne = () => {
         toast.error("Please confirm email before volunteering!")
       }
     } else{
-      toast.error("Please create an account before volunteering!")
+      toast.error("Please log in or sign up!")
+      navigate("/login")
     }
   }
 
@@ -121,7 +122,8 @@ const ViewOne = () => {
         toast.error("Please confirm email before fostering!")
       }
     } else{
-      toast.error("Please create an account before fostering!")
+      toast.error("Please log in or sign up!")
+      navigate("/login")
     }
   }
 
@@ -152,7 +154,7 @@ const ViewOne = () => {
   return (
     <>
       {edit ? (
-        <main  id="form">
+        <main id="form">
           <h2>Edit {entityType === 'events' ? "Event" : "Pet"}</h2>
           <EditForm handleToggle={handleToggle} entityType={entityType} />
         </main>
