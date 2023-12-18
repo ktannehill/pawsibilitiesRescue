@@ -15,7 +15,9 @@ const EditForm = ({ handleToggle, entityType }) => {
             title: data.title,
             description: data.description,
             location: data.location,
-            event_date: data.event_date,
+            // date: data.event_date.slice(0, 10),
+            // time: data.event_date.slice(11),
+            event_date: data.event_date
         }
     ) : (
         {
@@ -41,8 +43,12 @@ const EditForm = ({ handleToggle, entityType }) => {
         location: Yup.string()
         .required("Please enter a location")
         .min(5, "Must be at least 5 characters"),
+        // date: Yup.date()
+        // .required("Please enter a date"),
+        // time: Yup.string()
+        // .required("Please enter a time"),
         event_date: Yup.date()
-        .required("Please enter a date")
+        .required("Please enter a date"),
     })
     const petSchema = Yup.object().shape({
         image: Yup.string()
@@ -78,6 +84,10 @@ const EditForm = ({ handleToggle, entityType }) => {
         validationSchema={entityType === 'events' ? eventSchema : petSchema}
         onSubmit={async (values) => {
             if (entityType === 'events') {
+                console.log(values)
+                values["event_date"] = values.event_date.replace("T", " ")
+                console.log(values)
+
                 const {payload} = await dispatch(fetchPatchEvent({id, values}))
                 if (typeof payload !== "string") {
                     handleToggle(false)
@@ -126,9 +136,22 @@ const EditForm = ({ handleToggle, entityType }) => {
                         <Field name="location" type="text" className="block" />
                         <ErrorMessage name="location" component="span" className="block error_msg" />
                         
-                        <label htmlFor="event_date">Event Date</label>
-                        <Field name="event_date" type="text" className="block" />
-                        <ErrorMessage name="event_date" component="span" className="block error_msg" />
+                        <div className="flex_container">
+                            {/* <label htmlFor="date">Event Date
+                            <Field name="date" type="date" className="block" />
+                            <ErrorMessage name="date" component="span" className="block error_msg" />
+                            </label>
+                            
+                            <label htmlFor="time">Event Time
+                            <Field name="time" type="time" className="block" />
+                            <ErrorMessage name="time" component="span" className="block error_msg" />
+                            </label> */}
+                        </div>
+
+                        <label htmlFor="event_date">Event Date and Time</label>
+                        <Field name='event_date' type='datetime-local' className="block" />
+                        <ErrorMessage name='event_date' component="span" className="block error_msg" />
+
                     </>
                 ) : (
                     <>
