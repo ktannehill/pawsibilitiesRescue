@@ -73,11 +73,11 @@ class Pet(db.Model):
             raise ValueError("Description must be between 100-500 characters")
         return desc
 
-    def calculate_age(self):
-        if self.est_birthday:
-            today = datetime.now().date()
-            age = today.year - self.est_birthday.year - (
-                (today.month, today.day) < (self.est_birthday.month, self.est_birthday.day)
-            )
-            return age
-        return None
+    # def calculate_age(self):
+    #     if self.est_birthday:
+    #         today = datetime.now().date()
+    #         age = today.year - self.est_birthday.year - (
+    #             (today.month, today.day) < (self.est_birthday.month, self.est_birthday.day)
+    #         )
+    #         return age
+    #     return None

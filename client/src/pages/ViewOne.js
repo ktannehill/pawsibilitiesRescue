@@ -151,6 +151,8 @@ const ViewOne = () => {
     return "Loading..."
   }
 
+  console.log(data)
+
   return (
     <>
       {edit ? (
@@ -199,7 +201,17 @@ const ViewOne = () => {
                 ) : (
                   <>
                     <p>{data.sex === "female" ? <GiFemale /> : <GiMale />} {data.breed}</p>
-                    <p>{data.est_birthday}</p>
+                    <p>
+                      {data.age_years ? (
+                        <span>{data.age_years} years </span>
+                      ) : null}  
+                      {data.age_months ? (
+                        <span>{data.age_months} months </span>
+                      ) : null} 
+                      {!data.age_years && data.age_weeks ? (
+                        <span>{data.age_weeks} weeks </span>
+                      ) : null} 
+                    </p>
                     <p>{data.description}</p>
 
                     <div className="flex_container">
