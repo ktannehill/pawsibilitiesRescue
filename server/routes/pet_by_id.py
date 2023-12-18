@@ -15,6 +15,7 @@ class PetById(Resource):
             id, description=f"Could not find pet {id}"
         )
         try:
+            pet.calculate_age()
             serialized_data = pet_schema.dump(pet)
             return serialized_data, 200
         except Exception as e:

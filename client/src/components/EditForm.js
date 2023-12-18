@@ -15,8 +15,6 @@ const EditForm = ({ handleToggle, entityType }) => {
             title: data.title,
             description: data.description,
             location: data.location,
-            // date: data.event_date.slice(0, 10),
-            // time: data.event_date.slice(11),
             event_date: data.event_date
         }
     ) : (
@@ -43,10 +41,6 @@ const EditForm = ({ handleToggle, entityType }) => {
         location: Yup.string()
         .required("Please enter a location")
         .min(5, "Must be at least 5 characters"),
-        // date: Yup.date()
-        // .required("Please enter a date"),
-        // time: Yup.string()
-        // .required("Please enter a time"),
         event_date: Yup.date()
         .required("Please enter a date"),
     })
@@ -84,9 +78,8 @@ const EditForm = ({ handleToggle, entityType }) => {
         validationSchema={entityType === 'events' ? eventSchema : petSchema}
         onSubmit={async (values) => {
             if (entityType === 'events') {
-                console.log(values)
+
                 values["event_date"] = values.event_date.replace("T", " ")
-                console.log(values)
 
                 const {payload} = await dispatch(fetchPatchEvent({id, values}))
                 if (typeof payload !== "string") {
@@ -136,8 +129,8 @@ const EditForm = ({ handleToggle, entityType }) => {
                         <Field name="location" type="text" className="block" />
                         <ErrorMessage name="location" component="span" className="block error_msg" />
                         
-                        <div className="flex_container">
-                            {/* <label htmlFor="date">Event Date
+                        {/* <div className="flex_container">
+                            <label htmlFor="date">Event Date
                             <Field name="date" type="date" className="block" />
                             <ErrorMessage name="date" component="span" className="block error_msg" />
                             </label>
@@ -145,8 +138,8 @@ const EditForm = ({ handleToggle, entityType }) => {
                             <label htmlFor="time">Event Time
                             <Field name="time" type="time" className="block" />
                             <ErrorMessage name="time" component="span" className="block error_msg" />
-                            </label> */}
-                        </div>
+                            </label>
+                        </div> */}
 
                         <label htmlFor="event_date">Event Date and Time</label>
                         <Field name='event_date' type='datetime-local' className="block" />
@@ -155,21 +148,28 @@ const EditForm = ({ handleToggle, entityType }) => {
                     </>
                 ) : (
                     <>
-                        <label htmlFor="species">Species</label>
+                    <div className="flex_container">
+                        <label htmlFor="species">Species
                         <Field name="species" type="text" className="block" />
                         <ErrorMessage name="species" component="span" className="block error_msg" />
+                        </label>
 
-                        <label htmlFor="breed">Breed</label>
+                        <label htmlFor="breed">Breed
                         <Field name="breed" type="text" className="block" />
                         <ErrorMessage name="breed" component="span" className="block error_msg" />
-
-                        <label htmlFor="sex">Sex</label>
+                        </label>
+                    </div>
+                    <div className="flex_container">
+                        <label htmlFor="sex">Sex
                         <Field name="sex" type="text" className="block" />
                         <ErrorMessage name="sex" component="span" className="block error_msg" />
+                        </label>
 
-                        <label htmlFor="est_birthday">Estimated Birthday</label>
-                        <Field name="est_birthday" type="text" className="block" />
+                        <label htmlFor="est_birthday">Birthdate
+                        <Field name="est_birthday" type="date" className="block" />
                         <ErrorMessage name="est_birthday" component="span" className="block error_msg" />
+                        </label>
+                    </div>
                     </>
                 )}
             </div>

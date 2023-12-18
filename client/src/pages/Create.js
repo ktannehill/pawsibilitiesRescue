@@ -90,6 +90,9 @@ const Create = () => {
             validationSchema={entityType === 'events' ? eventSchema : petSchema}
             onSubmit={async (values) => {
                 if (entityType === 'events') {
+
+                    values["event_date"] = values.event_date.replace("T", " ")
+
                     const {payload} = await dispatch(fetchPostEvent(values))
                     if (typeof payload !== "string") {
                         toast.success("Event created")
@@ -138,27 +141,34 @@ const Create = () => {
                             <Field name="location" type="text" className="block" />
                             <ErrorMessage name="location" component="span" className="block error_msg" />
                             
-                            <label htmlFor="event_date">Event Date</label>
-                            <Field name="event_date" type="text" className="block" />
-                            <ErrorMessage name="event_date" component="span" className="block error_msg" />
+                            <label htmlFor="event_date">Event Date and Time</label>
+                        <Field name='event_date' type='datetime-local' className="block" />
+                        <ErrorMessage name='event_date' component="span" className="block error_msg" />
                         </>
                     ) : (
                         <>
-                            <label htmlFor="species">Species</label>
+                        <div className="flex_container">
+                            <label htmlFor="species">Species
                             <Field name="species" type="text" className="block" />
                             <ErrorMessage name="species" component="span" className="block error_msg" />
+                            </label>
 
-                            <label htmlFor="breed">Breed</label>
+                            <label htmlFor="breed">Breed
                             <Field name="breed" type="text" className="block" />
                             <ErrorMessage name="breed" component="span" className="block error_msg" />
-
-                            <label htmlFor="sex">Sex</label>
+                            </label>
+                        </div>
+                        <div className="flex_container">
+                            <label htmlFor="sex">Sex
                             <Field name="sex" type="text" className="block" />
                             <ErrorMessage name="sex" component="span" className="block error_msg" />
+                            </label>
 
-                            <label htmlFor="est_birthday">Estimated Birthday</label>
-                            <Field name="est_birthday" type="text" className="block" />
+                            <label htmlFor="est_birthday">Birthdate
+                            <Field name="est_birthday" type="date" className="block" />
                             <ErrorMessage name="est_birthday" component="span" className="block error_msg" />
+                            </label>
+                        </div>
                         </>
                     )}
                 </div>

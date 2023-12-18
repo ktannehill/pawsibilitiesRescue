@@ -206,6 +206,7 @@ input {
   font-size: 0.75rem;
   color: darkred;
   text-align: right;
+  margin: 0;
 }
 
 ::selection {
