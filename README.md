@@ -26,7 +26,7 @@ If you would like to test email functionality, you will also need to sign up for
   - Copy the code; open the `.env` file and insert `APP_SECRET = <paste code here>`. Exit the shell with `Ctrl-D`
 
 3. Flask-Mail configuration
-  - This is where the blog post will come in handy! After you've signed up for Mailtral, navigate to `Email Testing > Inboxes > My Inbox > Show Credentials`.
+  - This is where the blog post will come in handy! After you've signed up for Mailtrap, navigate to `Email Testing > Inboxes > My Inbox > Show Credentials`.
   - Copy your username; in the `.env` file, insert `MAIL_USERNAME = <paste username here>`.
   - Copy your password; in the `.env` file, insert `MAIL_PASSWORD = <paste password here>`.
   - This should connect the app to your email server!
@@ -37,7 +37,7 @@ If you would like to test email functionality, you will also need to sign up for
   - Run `python seed.py`. It may take a moment to seed the database!
     - Note: you may encounter an error in the terminal `Username must be between 5-50 characters`. Sometimes the seed file does not create long enough usernames! Run `python seed.py` again, it should populate the database appropriately. 
   - Run `flask run` or `python app.py` to start the server. Ensure it is running on port `5555`.
-    - If for any reason it is not, run `FLASK_RUN_PORT = 5555`, then `flask run` again.
+    - If for any reason it is not, exit with `Ctrl-C`, run `FLASK_RUN_PORT = 5555`, then `flask run` again.
 
 5. Frontend:
   - Open a second terminal window to be in charge of the frontend. Ensure you are in the main directory; if not, run `cd ..`.
