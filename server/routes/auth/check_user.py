@@ -11,6 +11,5 @@ class CheckUser(Resource):
         if "user_id" not in session:
             return {"message": "Not authorized"}, 403
         if user := db.session.get(User, session["user_id"]):
-            print(user)
             return user_schema.dump(user), 200
         return {"message": "Not Authorized"}, 403
