@@ -118,7 +118,16 @@ def seed_events():
     print("Events added!")
 
 def seed_admins():
-    for _ in range(5):
+    new_user = User(
+        first_name = fake.first_name(),
+        last_name = fake.last_name(),
+        username = "admin",
+        email = "admin@email.com",
+    )
+    new_user.admin = True
+    new_user.password_hash = "password"
+    db.session.add(new_user)
+    for _ in range(4):
         fake_username = fake.email().split("@")[0]
 
         new_user = User(
