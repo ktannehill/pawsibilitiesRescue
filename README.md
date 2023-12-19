@@ -33,7 +33,7 @@ If you would like to test email functionality, you will also need to sign up for
 
 4. Backend:
   - Run `cd server` in the backend terminal window to navigate to the backend directory.
-  - Run `flask db init`, `flask db migrate -m "inital migration"`, and `flask db upgrade` to create the database.
+  - Run `flask db init`, `flask db migrate -m "initial migration"`, and `flask db upgrade` to create the database.
   - Run `python seed.py`. It may take a moment to seed the database!
     - Note: you may encounter an error in the terminal that usernames must be at least 5 characters long. Sometimes the seed file does not create long enough usernames! Run `python seed.py` again, it should populate the database appropriately. 
   - Run `flask run` or `python app.py` to start the server. Ensure it is running on port `5555`.
