@@ -150,6 +150,7 @@ aside.card img {
 .flex_container {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .flex_container h2 {
@@ -200,10 +201,6 @@ label,
 
 .flex_container label {
   margin: 0;
-}
-
-.search {
-  margin: 2rem 0;
 }
 
 input,
