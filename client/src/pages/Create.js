@@ -90,6 +90,9 @@ const Create = () => {
             validationSchema={entityType === 'events' ? eventSchema : petSchema}
             onSubmit={async (values) => {
                 if (entityType === 'events') {
+
+                    values["event_date"] = values.event_date.replace("T", " ")
+
                     const {payload} = await dispatch(fetchPostEvent(values))
                     if (typeof payload !== "string") {
                         toast.success("Event created")
@@ -111,54 +114,70 @@ const Create = () => {
             <Form>
                 <div>
                     <label htmlFor="image">Image</label>
-                    <Field name="image" type="text" className="block" />
+                    <Field name="image" type="text" placeholder="Image" className="block" />
                     <ErrorMessage name="image" component="span" className="block error_msg" />
 
                     {entityType === 'events' ? (
                         <>
                             <label htmlFor="title">Title</label>
-                            <Field name="title" type="text" className="block" />
+                            <Field name="title" type="text" placeholder="Title" className="block" />
                             <ErrorMessage name="title" component="span" className="block error_msg" />
                         </>
                     ) : (
                         <>
                             <label htmlFor="name">Name</label>
-                            <Field name="name" type="text" className="block" />
+                            <Field name="name" type="text" placeholder="Name" className="block" />
                             <ErrorMessage name="name" component="span" className="block error_msg" />
                         </>
                     )}
 
                     <label htmlFor="description">Description</label>
-                    <Field name="description" as={CustomInputComponent} className="block" />
+                    <Field name="description" as={CustomInputComponent} placeholder="Description" className="block" />
                     <ErrorMessage name="description" component="span" className="block error_msg" />
 
                     {entityType === 'events' ? (
                         <>
                             <label htmlFor="location">Location</label>
-                            <Field name="location" type="text" className="block" />
+                            <Field name="location" type="text" placeholder="Location" className="block" />
                             <ErrorMessage name="location" component="span" className="block error_msg" />
-                            
-                            <label htmlFor="event_date">Event Date</label>
-                            <Field name="event_date" type="text" className="block" />
-                            <ErrorMessage name="event_date" component="span" className="block error_msg" />
+
+                            <label htmlFor="event_date">Event Date and Time</label>
+                            <Field name='event_date' type='datetime-local' className="block" />
+                            <ErrorMessage name='event_date' component="span" className="block error_msg" />
+
                         </>
                     ) : (
                         <>
-                            <label htmlFor="species">Species</label>
-                            <Field name="species" type="text" className="block" />
+                        <div className="flex_container">
+                            <label htmlFor="species">Species
+                            <Field name="species"  as="select" className="block">
+                                <option value="">Select one</option>
+                                <option value="cat">cat</option>
+                                <option value="dog">dog</option>
+                            </Field>
                             <ErrorMessage name="species" component="span" className="block error_msg" />
+                            </label>
 
-                            <label htmlFor="breed">Breed</label>
-                            <Field name="breed" type="text" className="block" />
+                            <label htmlFor="breed">Breed
+                            <Field name="breed" type="text" placeholder="Breed" className="block" />
                             <ErrorMessage name="breed" component="span" className="block error_msg" />
-
-                            <label htmlFor="sex">Sex</label>
-                            <Field name="sex" type="text" className="block" />
+                            </label>
+                        </div>
+                        <div className="flex_container">
+                            <label htmlFor="sex">Sex
+                            <Field name="sex" as="select" className="block">
+                                <option value="">Select one</option>
+                                <option value="female">female</option>
+                                <option value="male">male</option>
+                            </Field>
                             <ErrorMessage name="sex" component="span" className="block error_msg" />
+                            </label>
 
-                            <label htmlFor="est_birthday">Estimated Birthday</label>
-                            <Field name="est_birthday" type="text" className="block" />
+                            <label htmlFor="est_birthday">Birthdate
+                            <Field name="est_birthday" type="date" className="block" />
                             <ErrorMessage name="est_birthday" component="span" className="block error_msg" />
+                            </label>
+                        </div>
                         </>
                     )}
                 </div>

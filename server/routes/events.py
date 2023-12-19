@@ -8,7 +8,7 @@ from models.event import Event
 from schemas.event_schema import EventSchema
 
 event_schema = EventSchema(session=db.session)
-events_schema = EventSchema(many=True, exclude=("users",), session=db.session)
+events_schema = EventSchema(many=True, session=db.session)
 
 class Events(Resource):
     def get(self):

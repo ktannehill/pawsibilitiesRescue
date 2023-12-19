@@ -150,6 +150,7 @@ aside.card img {
 .flex_container {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .flex_container h2 {
@@ -166,7 +167,7 @@ a:hover {
 }
 
 button {
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   font-size: 1rem;
   margin: 1rem 0;
   border-radius: 50px;
@@ -198,7 +199,12 @@ label,
   margin: 1rem 0;
 }
 
-input {
+.flex_container label {
+  margin: 0;
+}
+
+input,
+select {
   padding: 0.5rem;
 }
 
@@ -206,6 +212,7 @@ input {
   font-size: 0.75rem;
   color: darkred;
   text-align: right;
+  margin: 0;
 }
 
 ::selection {

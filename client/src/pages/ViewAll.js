@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchAllEvents } from '../features/event/eventSlice'
 import { fetchAllPets } from '../features/pet/petSlice'
@@ -9,6 +9,8 @@ import toast from 'react-hot-toast'
 const ViewAll = () => {
     const { entityType } = useParams()
     const data = useSelector(state => entityType === 'events' ? state.event.data : state.pet.data)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [sortOption, setSortOption] = useState("date")
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -39,7 +41,32 @@ const ViewAll = () => {
         })()
     },[data, dispatch, navigate, entityType])
 
-    const mappedEvents = data?.map(item => (
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
+    }
+
+    const handleSortChange = (e) => {
+        setSortOption(e.target.value)
+    }
+
+    const filteredData = data?.filter(item =>
+        item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.breed?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+    const sortedData = filteredData?.sort((a, b) => {
+        if (sortOption === "date") {
+            return new Date(a.event_date) - new Date(b.event_date)
+        } else if (sortOption === "volunteers") {
+            return a.users.length - b.users.length
+        }
+        return 0
+    })
+
+    const mappedItems = sortedData?.map(item => (
         <Card key={item.id} item={item} entityType={entityType} />
     ))
 
@@ -59,7 +86,35 @@ const ViewAll = () => {
                 )}
             </div>
             <main id="container">
-                {data && mappedEvents}
+            {entityType === 'events' ? (
+                    <p>
+                        Volunteering at pet rescue events is a vital and valued contribution to our mission of finding loving homes for animals in need. Whether you're cleaning bowls, taking pets for walks, or dedicating a day to an adoption event, each effort plays a crucial role in creating a positive environment for these pets. We encourage members of our community to sign up for volunteer opportunities, as every small act of kindness adds up to make a significant impact. Your involvement ensures that these animals receive the care and attention they deserve, bringing them one step closer to finding their forever homes. Join us in making a difference and being a source of compassion for these wonderful pets.
+                    </p>
+                ) : (
+                    <p>
+                        All our rescue pets available for foster or adoption are provided with the utmost care. They are spayed or neutered and kept up-to-date on age-appropriate vaccinations, ensuring their overall well-being. As a volunteer, if you choose to foster a pet that may require medical treatment, rest assured that our rescue group is committed to providing the necessary care and support. Your dedication to fostering not only provides a safe haven for these pets but also contributes to their journey towards a healthier and happier life. Join us in making a positive impact on the lives of these animals, knowing that your efforts directly contribute to their well-rounded care and eventual placement in loving homes.
+                    </p>
+                )}
+                <div className='flex_container'>
+                    <label htmlFor="search">
+                        <input
+                            name="search"
+                            type="text"
+                            placeholder={`Search ${entityType === 'events' ? 'events' : 'pets'}`}
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            className='block'
+                        /> 
+                    </label>
+                    <label htmlFor="sort_by">
+                        <select value={sortOption} onChange={handleSortChange}>
+                            <option value="">Sort by:</option>
+                            <option value="date">Date</option>
+                            <option value="volunteers">Volunteers</option>
+                        </select>
+                    </label>
+                </div>
+                {data && mappedItems}
             </main>
         </div>
   )
