@@ -40,7 +40,19 @@ const ViewAll = () => {
         })()
     },[data, dispatch, navigate, entityType])
 
-    const mappedEvents = data?.map(item => (
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredData = data?.filter(item =>
+        item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.breed?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const mappedItems = filteredData?.map(item => (
         <Card key={item.id} item={item} entityType={entityType} />
     ))
 
@@ -69,7 +81,15 @@ const ViewAll = () => {
                         All our rescue pets available for foster or adoption are provided with the utmost care. They are spayed or neutered and kept up-to-date on age-appropriate vaccinations, ensuring their overall well-being. As a volunteer, if you choose to foster a pet that may require medical treatment, rest assured that our rescue group is committed to providing the necessary care and support. Your dedication to fostering not only provides a safe haven for these pets but also contributes to their journey towards a healthier and happier life. Join us in making a positive impact on the lives of these animals, knowing that your efforts directly contribute to their well-rounded care and eventual placement in loving homes.
                     </p>
                 )}
-                {data && mappedEvents}
+                <div className='flex_container search'>
+                    <input
+                        type="text"
+                        placeholder={`Search ${entityType === 'events' ? 'events' : 'pets'}`}
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    /> 
+                </div>
+                {data && mappedItems}
             </main>
         </div>
   )
