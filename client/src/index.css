@@ -198,7 +198,12 @@ label,
   margin: 1rem 0;
 }
 
-input {
+.flex_container label {
+  margin: 0;
+}
+
+input,
+select {
   padding: 0.5rem;
 }
 

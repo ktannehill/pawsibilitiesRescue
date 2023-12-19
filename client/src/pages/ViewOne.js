@@ -151,8 +151,6 @@ const ViewOne = () => {
     return "Loading..."
   }
 
-  console.log(data)
-
   return (
     <>
       {edit ? (

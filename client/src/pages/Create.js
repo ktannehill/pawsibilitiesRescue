@@ -114,53 +114,62 @@ const Create = () => {
             <Form>
                 <div>
                     <label htmlFor="image">Image</label>
-                    <Field name="image" type="text" className="block" />
+                    <Field name="image" type="text" placeholder="Image" className="block" />
                     <ErrorMessage name="image" component="span" className="block error_msg" />
 
                     {entityType === 'events' ? (
                         <>
                             <label htmlFor="title">Title</label>
-                            <Field name="title" type="text" className="block" />
+                            <Field name="title" type="text" placeholder="Title" className="block" />
                             <ErrorMessage name="title" component="span" className="block error_msg" />
                         </>
                     ) : (
                         <>
                             <label htmlFor="name">Name</label>
-                            <Field name="name" type="text" className="block" />
+                            <Field name="name" type="text" placeholder="Name" className="block" />
                             <ErrorMessage name="name" component="span" className="block error_msg" />
                         </>
                     )}
 
                     <label htmlFor="description">Description</label>
-                    <Field name="description" as={CustomInputComponent} className="block" />
+                    <Field name="description" as={CustomInputComponent} placeholder="Description" className="block" />
                     <ErrorMessage name="description" component="span" className="block error_msg" />
 
                     {entityType === 'events' ? (
                         <>
                             <label htmlFor="location">Location</label>
-                            <Field name="location" type="text" className="block" />
+                            <Field name="location" type="text" placeholder="Location" className="block" />
                             <ErrorMessage name="location" component="span" className="block error_msg" />
-                            
+
                             <label htmlFor="event_date">Event Date and Time</label>
-                        <Field name='event_date' type='datetime-local' className="block" />
-                        <ErrorMessage name='event_date' component="span" className="block error_msg" />
+                            <Field name='event_date' type='datetime-local' className="block" />
+                            <ErrorMessage name='event_date' component="span" className="block error_msg" />
+
                         </>
                     ) : (
                         <>
                         <div className="flex_container">
                             <label htmlFor="species">Species
-                            <Field name="species" type="text" className="block" />
+                            <Field name="species"  as="select" className="block">
+                                <option value="">Select one</option>
+                                <option value="cat">cat</option>
+                                <option value="dog">dog</option>
+                            </Field>
                             <ErrorMessage name="species" component="span" className="block error_msg" />
                             </label>
 
                             <label htmlFor="breed">Breed
-                            <Field name="breed" type="text" className="block" />
+                            <Field name="breed" type="text" placeholder="Breed" className="block" />
                             <ErrorMessage name="breed" component="span" className="block error_msg" />
                             </label>
                         </div>
                         <div className="flex_container">
                             <label htmlFor="sex">Sex
-                            <Field name="sex" type="text" className="block" />
+                            <Field name="sex" as="select" className="block">
+                                <option value="">Select one</option>
+                                <option value="female">female</option>
+                                <option value="male">male</option>
+                            </Field>
                             <ErrorMessage name="sex" component="span" className="block error_msg" />
                             </label>
 
