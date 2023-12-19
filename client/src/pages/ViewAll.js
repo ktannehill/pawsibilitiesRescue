@@ -10,7 +10,15 @@ const ViewAll = () => {
     const { entityType } = useParams()
     const data = useSelector(state => entityType === 'events' ? state.event.data : state.pet.data)
     const [searchTerm, setSearchTerm] = useState("")
-    const [sortOption, setSortOption] = useState("date")
+    const [sortOption, setSortOption] = useState("")
+    const [speciesFilter, setSpeciesFilter] = useState({
+        cat: true,
+        dog: true,
+    })
+    const [sexFilter, setSexFilter] = useState({
+        female: true, 
+        male: true,
+    })
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -38,6 +46,9 @@ const ViewAll = () => {
                     toast.error("Error fetching data:", error)
                 }
             }
+            if (searchTerm) {
+                setSearchTerm("")
+            }
         })()
     },[data, dispatch, navigate, entityType])
 
@@ -45,16 +56,32 @@ const ViewAll = () => {
         setSearchTerm(e.target.value)
     }
 
-    const handleSortChange = (e) => {
+    const handleSortToggle = (e) => {
         setSortOption(e.target.value)
     }
 
+    const handleSpeciesToggle = (species) => {
+        setSpeciesFilter((prevFilter) => ({
+            ...prevFilter,
+            [species]: !prevFilter[species],
+        }));
+    };
+
+    const handleSexToggle = (sex) => {
+        setSexFilter((prevFilter) => ({
+            ...prevFilter,
+            [sex]: !prevFilter[sex],
+        }))
+    }
+
     const filteredData = data?.filter(item =>
-        item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.breed?.toLowerCase().includes(searchTerm.toLowerCase())
+        item.breed?.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (item.species ? speciesFilter[item.species] : true) &&
+        (item.sex ? sexFilter[item.sex] : true)
     )
 
     const sortedData = filteredData?.sort((a, b) => {
@@ -106,13 +133,57 @@ const ViewAll = () => {
                             className='block'
                         /> 
                     </label>
-                    <label htmlFor="sort_by">
-                        <select value={sortOption} onChange={handleSortChange}>
-                            <option value="">Sort by:</option>
-                            <option value="date">Date</option>
-                            <option value="volunteers">Volunteers</option>
-                        </select>
-                    </label>
+                    {entityType === "events" ? (
+                        <div className='flex_container'>
+                        <label htmlFor="sort_by">
+                            <select value={sortOption} onChange={handleSortToggle}>
+                                <option value="">Sort by:</option>
+                                <option value="date">Date</option>
+                                <option value="volunteers">Volunteers</option>
+                            </select>
+                        </label>
+                        </div>
+                    ): (
+                        <div className='flex_container'>
+                        <div className='flex_container'>
+                            <label htmlFor="cat">Cat
+                                <input
+                                    name="cat"
+                                    type="checkbox"
+                                    checked={speciesFilter.cat}
+                                    onChange={() => handleSpeciesToggle('cat')}
+                                />
+                            </label>
+                            <label htmlFor="dog">Dog
+                                <input
+                                    name="dog"
+                                    type="checkbox"
+                                    checked={speciesFilter.dog}
+                                    onChange={() => handleSpeciesToggle('dog')}
+                                    
+                                />
+                            </label>
+                        </div>
+                        <div className='flex_container'>
+                            <label htmlFor="female">Female
+                                <input
+                                    name="female"
+                                    type="checkbox"
+                                    checked={sexFilter.female}
+                                    onChange={() => handleSexToggle('female')}
+                                />
+                            </label>
+                            <label htmlFor="male">Male
+                                <input
+                                    name="male"
+                                    type="checkbox"
+                                    checked={sexFilter.male}
+                                    onChange={() => handleSexToggle('male')}
+                                />
+                            </label>
+                        </div>
+                        </div>
+                    )}
                 </div>
                 {data && mappedItems}
             </main>
