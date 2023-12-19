@@ -117,7 +117,7 @@ const ViewOne = () => {
   const handleFoster = (id) => {
     if(user) {
       if (user.confirmed) {
-        console.log(user)
+        toast.error("Feature coming soon!")
       } else{
         toast.error("Please confirm email before fostering!")
       }

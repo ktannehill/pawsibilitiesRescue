@@ -1,4 +1,4 @@
-from flask import request, abort
+from flask import request, abort, session
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from marshmallow import ValidationError
@@ -23,6 +23,10 @@ class UserById(Resource):
         user = User.query.get_or_404(
             id, description=f"Could not find user {id}"
         )
+        if "user_id" not in session:
+            return {"message": "Not authorized"}, 403
+        user = db.session.get(User, session["user_id"])
+        if user.admin:
         try:
             data = request.get_json()
             user_schema.validate(data)
