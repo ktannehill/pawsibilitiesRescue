@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchAllEvents } from '../features/event/eventSlice'
 import { fetchAllPets } from '../features/pet/petSlice'
@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 const ViewAll = () => {
     const { entityType } = useParams()
     const data = useSelector(state => entityType === 'events' ? state.event.data : state.pet.data)
+    const prevETRef = useRef()
     const [searchTerm, setSearchTerm] = useState("")
     const [sortOption, setSortOption] = useState("")
     const [speciesFilter, setSpeciesFilter] = useState({
@@ -24,24 +25,24 @@ const ViewAll = () => {
 
     useEffect(() => {
         (async () => {
-            if (!data) {
+            if (entityType !== prevETRef.current || !data) {
                 try {
                     if (entityType === 'events') {
                         const { payload } = await dispatch(fetchAllEvents())
                         if (typeof payload === 'string') {
-                          toast.error(payload)
-                          navigate('/')
+                            toast.error(payload)
+                            navigate('/')
                         }
-                      } else if (entityType === 'pets') {
+                        } else if (entityType === 'pets') {
                         const { payload } = await dispatch(fetchAllPets())
                         if (typeof payload === 'string') {
-                          toast.error(payload)
-                          navigate('/')
+                            toast.error(payload)
+                            navigate('/')
                         }
-                      } else {
+                        } else {
                         toast.error("Page does not exist")
                         navigate('/')
-                      }
+                        }
                 } catch (error) {
                     toast.error("Error fetching data:", error)
                 }
@@ -50,6 +51,7 @@ const ViewAll = () => {
                 setSearchTerm("")
             }
         })()
+        prevETRef.current = entityType
     },[data, dispatch, navigate, entityType])
 
     const handleSearch = (e) => {
@@ -85,12 +87,14 @@ const ViewAll = () => {
     )
 
     const sortedData = filteredData?.sort((a, b) => {
-        if (sortOption === "date") {
-            return new Date(a.event_date) - new Date(b.event_date)
-        } else if (sortOption === "volunteers") {
-            return a.users.length - b.users.length
+        if (a.event_date) {
+            if (sortOption === "date") {
+                return new Date(a.event_date) - new Date(b.event_date)
+            } else if (sortOption === "volunteers") {
+                return a.users.length - b.users.length
+            }
+            return 0
         }
-        return 0
     })
 
     const mappedItems = sortedData?.map(item => (
