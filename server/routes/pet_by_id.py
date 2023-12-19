@@ -40,6 +40,7 @@ class PetById(Resource):
             except (ValueError, ValidationError, IntegrityError) as e:
                 db.session.rollback()
                 abort(400, str(e))
+        return {"message": "Not Authorized"}, 403
 
     def delete(self, id):
         pet = Pet.query.get_or_404(

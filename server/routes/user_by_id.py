@@ -25,32 +25,38 @@ class UserById(Resource):
         )
         if "user_id" not in session:
             return {"message": "Not authorized"}, 403
-        user = db.session.get(User, session["user_id"])
-        if user.admin:
-        try:
-            data = request.get_json()
-            user_schema.validate(data)
-            updated_user = user_schema.load(
-                data, instance=user, partial=True, session=db.session
-            )
-            db.session.commit()
-            return user_schema.dump(updated_user), 200
-        except IntegrityError as e:
-            # (sqlite3.IntegrityError) UNIQUE constraint failed:
-            db.session.rollback()
-            return {"message": "Email or username already in use"}, 400
-        except (ValidationError, ValueError) as e:
-            db.session.rollback()
-            abort(400, str(e))
+        currentUser = db.session.get(User, session["user_id"])
+        if user.id == currentUser.id:
+            try:
+                data = request.get_json()
+                user_schema.validate(data)
+                updated_user = user_schema.load(
+                    data, instance=user, partial=True, session=db.session
+                )
+                db.session.commit()
+                return user_schema.dump(updated_user), 200
+            except IntegrityError as e:
+                # (sqlite3.IntegrityError) UNIQUE constraint failed:
+                db.session.rollback()
+                return {"message": "Email or username already in use"}, 400
+            except (ValidationError, ValueError) as e:
+                db.session.rollback()
+                abort(400, str(e))
+        return {"message": "Not Authorized"}, 403
 
     def delete(self, id):
         user = User.query.get_or_404(
             id, description=f"Could not find user {id}"
         )
-        try:
-            db.session.delete(user)
-            db.session.commit()
-            return None, 204
-        except Exception as e:
-            db.session.rollback()
-            abort(400, str(e))
+        if "user_id" not in session:
+            return {"message": "Not authorized"}, 403
+        currentUser = db.session.get(User, session["user_id"])
+        if user.id == currentUser.id:
+            try:
+                db.session.delete(user)
+                db.session.commit()
+                return None, 204
+            except Exception as e:
+                db.session.rollback()
+                abort(400, str(e))
+        return {"message": "Not Authorized"}, 403
