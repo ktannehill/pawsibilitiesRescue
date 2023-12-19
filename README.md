@@ -81,6 +81,6 @@ The past fifteen weeks at Flatiron School have been a whirlwind – a transforma
 
 I am immensely proud of the collective accomplishments of our class; a group of more supportive, good-humored, and brilliant individuals I could not hope for. Special gratitude goes to my teammates for their collaboration on various projects and to our instructor, a bottomless well of knowledge and an inspiring mentor.
 
-As I stand at the cusp of this milestone, armed with a solid foundation in software engineering, I eagerly anticipate the challenges and triumphs that lie ahead. Each late-night coding session has instilled in me the confidence to face new obstacles head-on. With unwavering determination, I am ready to ascend to new heights as a Software Engineer.
+As I approach this milestone, armed with a solid foundation in software engineering, I look forward to the challenges and triumphs that await. Each late-night coding session has instilled in me the confidence to tackle new obstacles with determination. Ready to embrace the journey ahead, I am poised to ascend to new heights as a Software Engineer.
 
-Thank you for an incredible journey, though only the first step. We did it!
+Thank you for an incredible journey, though it's just the beginning. We did it!
