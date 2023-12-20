@@ -16,6 +16,8 @@ faker = "*"
 flask-bcrypt = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+gunicorn = "*"
+psycopg = "*"
 
 [requires]
 python_full_version = "3.8.13"
