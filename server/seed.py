@@ -130,6 +130,9 @@ def seed_admins():
     for _ in range(4):
         fake_username = fake.email().split("@")[0]
 
+        if len(fake_username) < 5:
+            fake_username += fake_username
+
         new_user = User(
             first_name = fake.first_name(),
             last_name = fake.last_name(),
