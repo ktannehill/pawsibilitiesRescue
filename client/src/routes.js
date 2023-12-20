@@ -39,14 +39,6 @@ const routes = [
                 element: <ViewOne />,
             },
             {
-                path: "/:entityType",
-                element: <ViewAll />,
-            },
-            {
-                path: "/:entityType/:id",
-                element: <ViewOne />,
-            },
-            {
                 path: "/:entityType/new",
                 element: <Create />,
             },

@@ -43,6 +43,7 @@ const ViewAll = () => {
                         toast.error("Page does not exist")
                         navigate('/')
                         }
+                        // else if 500 pretty toast error if DB off
                 } catch (error) {
                     toast.error("Error fetching data:", error)
                 }
