@@ -2,7 +2,7 @@
 
 # Standard/ Remote library imports
 from werkzeug.exceptions import NotFound
-from flask import session
+from flask import session, render_template
 from flask_mail import Message
 from itsdangerous import SignatureExpired, BadSignature
 
@@ -33,10 +33,6 @@ from utilities import send_confirmation_email
 user_schema = UserSchema(session=db.session)
 
 # Views go here!
-
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
 
 api.add_resource(Users, "/users")
 api.add_resource(UserById, "/users/<int:id>")
@@ -95,6 +91,17 @@ def event_confirmation_email(id):
         mail.send(msg)
         return {"user": user_schema.dump(user)}, 200
     return {"message": "Not Authorized"}, 403
+
+#! Frontend routes
+@app.route('/')
+@app.route('/login')
+@app.route('/login/<token>')
+@app.route('/profile')
+@app.route('/<entityType>')
+@app.route('/<entityType>/<int:id>')
+@app.route('/<entityType>/new')
+def index(id=0):
+    return render_template("index.html")
 
 
 if __name__ == '__main__':

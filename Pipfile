@@ -18,6 +18,7 @@ flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 gunicorn = "*"
 psycopg = "*"
+psycopg2 = "*"
 
 [requires]
 python_full_version = "3.8.13"
