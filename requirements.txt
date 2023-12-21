@@ -3,8 +3,8 @@ alembic==1.13.1; python_version >= '3.8'
 aniso8601==9.0.1
 asttokens==2.4.1
 backcall==0.2.0
-backports.zoneinfo==0.2.1; python_version < '3.9'
 bcrypt==4.1.2; python_version >= '3.7'
+blinker==1.7.0; python_version >= '3.8'
 click==8.1.7; python_version >= '3.7'
 decorator==5.1.1; python_version >= '3.7'
 executing==2.0.1; python_version >= '3.5'
@@ -36,7 +36,6 @@ parso==0.8.3; python_version >= '3.6'
 pexpect==4.9.0; sys_platform != 'win32'
 pickleshare==0.7.5
 prompt-toolkit==3.0.43; python_full_version >= '3.7.0'
-psycopg==3.1.16
 psycopg2==2.9.9
 ptyprocess==0.7.0
 pure-eval==0.2.2
