@@ -14,11 +14,11 @@ flask-restful = "*"
 flask-cors = "*"
 faker = "*"
 flask-bcrypt = "*"
+python-dotenv = "*"
 flask-mail = "0.9.1"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 gunicorn = "*"
-psycopg = "*"
 psycopg2 = "*"
 
 [requires]
