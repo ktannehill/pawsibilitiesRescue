@@ -24,7 +24,7 @@ class PetSchema(ma.SQLAlchemySchema):
         validate=validate.Length(min=3, error="Sex must be 'female' or 'male'")
     )
     description = fields.String(required=True, 
-        validate=validate.Length(min=160, max=480, error="Description must be between 160-480 characters")
+        validate=validate.Length(min=100, max=500, error="Description must be between 100-500 characters")
     )
 
     user = fields.Nested("UserSchema", only=("username",))

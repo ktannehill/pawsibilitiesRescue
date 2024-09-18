@@ -22,6 +22,7 @@ const ViewOne = () => {
   useEffect(() => {
     (async () => {
       if (id !== prevIdRef.current || !data) {
+        // make delete flag so this doesn't fire if true
         try {
           if (entityType === 'events') {
             const { payload } = await dispatch(fetchOneEvent(id))
