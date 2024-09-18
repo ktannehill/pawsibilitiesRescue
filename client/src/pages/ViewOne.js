@@ -26,13 +26,13 @@ const ViewOne = () => {
           if (entityType === 'events') {
             const { payload } = await dispatch(fetchOneEvent(id))
             if (typeof payload === 'string') {
-              toast.error(payload)
+              // toast.error(payload)
               navigate('/')
             }
           } else if (entityType === 'pets') {
             const { payload } = await dispatch(fetchOnePet(id))
             if (typeof payload === 'string') {
-              toast.error(payload)
+              // toast.error(payload)
               navigate('/')
             }
           } else {
