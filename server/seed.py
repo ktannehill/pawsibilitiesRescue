@@ -33,49 +33,49 @@ EVENTS = [
         'title': "Paws in the Park Cleanup",
         'description': "Join us for a community park cleanup to create a safe and enjoyable space for our furry friends. We'll be clearing trails, picking up trash, and ensuring a clean environment for pets and their owners.",
         'location': "City Park, Denver",
-        'event_date': "2024-03-10 09:00",
+        'event_date': "2025-03-10 09:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1686345887586-c06b27bc21da?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Adoption Day Extravaganza",
         'description': "Help us set up and organize our biggest adoption event of the year! Assist with booth setup, guide potential adopters, and create a welcoming atmosphere for our rescue animals.",
         'location': "Paw-sibilities Rescue Center",
-        'event_date': "2024-04-15 11:00",
+        'event_date': "2025-04-15 11:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1648632334867-f96cd2733eb5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Feline Friends Socialization Hour",
         'description': "Spend quality time with our adorable cats awaiting adoption. Engage in playtime, offer companionship, and help socialize our feline friends to improve their chances of finding forever homes.",
         'location': "Kitty Cuddle Haven, Denver",
-        'event_date': "2024-05-05 15:00",
+        'event_date': "2025-05-05 15:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1600044531557-f7902b86aace?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Dog Walking Adventure Group",
         'description': "Grab a leash and join us for a scenic dog walking adventure in the beautiful local trails. It's a great opportunity to exercise, enjoy nature, and provide our rescue dogs with much-needed outdoor time.",
         'location': "Local Trails, Denver",
-        'event_date': "2024-06-20 10:00",
+        'event_date': "2025-06-20 10:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1545249390-6bdfa286032f?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Pet Picture Day",
         'description': "Join us for a fun-filled day of capturing special moments with your beloved pets! Bring your furry friends to the local park, and our professional photographers will be on hand to take beautiful pictures. Cherish the memories forever!",
         'location': "Washington Park, Denver",
-        'event_date': "2024-03-18 14:00",
+        'event_date': "2025-03-18 14:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1683145634801-1eef1d43f663?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Senior Dogs Pup Cups",
         'description': "Treat your senior dogs to a delightful outing! We'll be taking our senior furry friends to Starbucks, where they can enjoy pup cups and receive lots of love. It's a heartwarming experience for both the dogs and their human companions!",
         'location': "Starbucks on Alameda",
-        'event_date': "2024-05-23 16:00",
+        'event_date': "2025-05-23 16:00",
     },
     {
         'image': "https://images.unsplash.com/photo-1620021030164-b0e70f5a5500?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         'title': "Pet Adoption Fair",
         'description': "Join us for a heartwarming Pet Adoption Fair! We'll have adorable pets looking for their forever homes. Volunteers are needed to help with various tasks, including assisting visitors, answering questions, and ensuring a smooth adoption process. Make a difference in the lives of these animals and help them find loving families!",
         'location': "Local Community Center",
-        'event_date': "2024-01-15 12:00",
+        'event_date': "2025-07-15 12:00",
     },
 ]
 
@@ -178,15 +178,15 @@ def seed_events():
     print("Events added!")
 
 def seed_admins():
-    new_user = User(
-        first_name = fake.first_name(),
-        last_name = fake.last_name(),
-        username = "admin",
-        email = "admin@email.com",
-    )
-    new_user.admin = True
-    new_user.password_hash = "password"
-    db.session.add(new_user)
+    # new_user = User(
+    #     first_name = fake.first_name(),
+    #     last_name = fake.last_name(),
+    #     username = "admin",
+    #     email = "admin@email.com",
+    # )
+    # new_user.admin = True
+    # new_user.password_hash = "password"
+    # db.session.add(new_user)
     for _ in range(4):
         fake_username = fake.email().split("@")[0]
 

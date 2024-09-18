@@ -14,8 +14,12 @@ flask-restful = "*"
 flask-cors = "*"
 faker = "*"
 flask-bcrypt = "*"
+python-dotenv = "*"
+flask-mail = "0.9.1"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+gunicorn = "*"
+psycopg2 = "*"
 
 [requires]
 python_full_version = "3.8.13"
