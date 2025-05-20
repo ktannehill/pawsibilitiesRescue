@@ -1,8 +1,8 @@
-"""models
+"""Initial migration
 
-Revision ID: 66ef36459bc6
+Revision ID: b3c73dda49a9
 Revises: 
-Create Date: 2024-09-17 20:56:49.194943
+Create Date: 2025-05-19 18:52:57.312584
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '66ef36459bc6'
+revision = 'b3c73dda49a9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('location', sa.String(), nullable=False),
     sa.Column('event_date', sa.DateTime(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -38,7 +38,7 @@ def upgrade():
     sa.Column('_password_hash', sa.String(), nullable=False),
     sa.Column('confirmed', sa.Boolean(), server_default='0', nullable=True),
     sa.Column('admin', sa.Boolean(), server_default='0', nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
@@ -54,7 +54,7 @@ def upgrade():
     sa.Column('est_birthday', sa.Date(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_pets_user_id_users')),
     sa.PrimaryKeyConstraint('id')
@@ -62,7 +62,7 @@ def upgrade():
     op.create_table('user_events',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('event_id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['event_id'], ['events.id'], name=op.f('fk_user_events_event_id_events')),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_user_events_user_id_users')),
